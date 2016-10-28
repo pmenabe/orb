@@ -4,7 +4,7 @@
 
 'use strict';
 
-module.exports.PivotTableColumnButtons = react.createClass({
+module.exports.PivotTableColumnButtons = React.createClass({
   render: function() {
     var self = this;
     var PivotButton = comps.PivotButton;

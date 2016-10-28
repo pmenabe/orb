@@ -4,7 +4,7 @@
 
 'use strict';
 
-module.exports.Grid = react.createClass({
+module.exports.Grid = React.createClass({
   render: function() {
     var data = this.props.data;
     var headers = this.props.headers;

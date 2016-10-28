@@ -6,7 +6,7 @@
 'use strict';
 
 
-module.exports.DropIndicator = react.createClass({
+module.exports.DropIndicator = React.createClass({
 	displayName: 'DropIndicator',
 	getInitialState: function () {
 		dragManager.registerIndicator(this, this.props.axetype, this.props.position, this.onDragOver, this.onDragEnd);
@@ -51,6 +51,6 @@ module.exports.DropIndicator = react.createClass({
 			classname += ' drp-indic-over';
 		}
 
-		return <div style={style} className={classname}></div>;
+		return <div ref='indicator' style={style} className={classname}></div>;
 	}
 });

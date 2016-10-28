@@ -1,10 +1,10 @@
 /**
- * orb v1.0.9, Pivot grid javascript library.
+ * orb v1.0.9, Pivot table javascript library.
  *
- * Copyright (c) 2014-2015 Najmeddine Nouri <devnajm@gmail.com>.
+ * Copyright (c) 2014-2016 [object Object].
  *
  * @version v1.0.9
- * @link http://nnajm.github.io/orb/
+ * @link http://orbjs.net/
  * @license MIT
  */
 
@@ -36,7 +36,7 @@
 .orb .fld-btn .sort-desc{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAFCAYAAABmWJ3mAAAAJklEQVQImXXKuQ0AAAiAQFZ0GsfH1vhcQgc+UOMKgHV3aqrJNO8CnJdKjfkCkMUAAAAASUVORK5CYII=) no-repeat}
 .orb .fld-btn .fltr-btn{width:11px;height:11px}
 .orb .fld-btn .fltr-btn-active,.orb .fld-btn:hover .fltr-btn{background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAMUlEQVQYlWP4//9/I7GYgSzFDHgAVsX/sQCsirFpQFaI1c0wDegKB0AxeihQFs7EYAAT8WYwzt7jxgAAAABJRU5ErkJggg==) no-repeat}
-.orb.fltr-cntnr{position:fixed;background-color:#fff;font-size:90%;width:301px;height:223px;padding:3px}
+.orb.fltr-cntnr{position:fixed;background-color:#fff;font-size:90%;width:301px;height:223px;padding:3px;z-index:1003}
 .orb.fltr-cntnr .fltr-val{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
 .orb.fltr-cntnr .fltr-chkbox{width:16px}
 .orb .fltr-scntnr{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:2px}
@@ -70,7 +70,7 @@
 .orb-h-scrollbar .orb-scrollthumb{margin:3px 0;height:10px;top:0}
 .orb-v-scrollbar{position:relative;width:16px}
 .orb-v-scrollbar .orb-scrollthumb{margin:0 3px;width:10px;left:0}
-.orb-overlay{position:fixed;left:0;top:0;right:0;bottom:0;z-index:3;width:auto;margin-left:0;background-color:rgba(128,128,128,.71)}
+.orb-overlay{position:fixed;left:0;top:0;right:0;bottom:0;z-index:1010;width:auto;margin-left:0;background-color:rgba(128,128,128,.71)}
 .orb-overlay-hidden{display:none}
 .orb-overlay-visible{display:block}
 .orb-dialog{position:absolute;z-index:5}
@@ -215,6 +215,54 @@
 .orb-blue .orb-dialog-header .button-close:hover{background-color:#addfee}
 .orb-blue .orb-table td,.orb-blue .orb-table th{border-top:1px solid #addfee}
 .orb-blue .orb-table th{background-color:#5bc0de;color:#fff;border:1px solid #addfee;font-weight:700}
+.orb-darkBlue .orb{color:#000}
+.orb-darkBlue .orb .av-flds{border-bottom:1px solid #90c2e7!important}
+.orb-darkBlue .orb .flds-grp-cap div{color:#ccc}
+.orb-darkBlue .orb .cell{background-color:#fff;color:#000;border-top:1px solid #90c2e7;border-left:1px solid #ddecf7}
+.orb-darkBlue .orb .cell-gt,.orb-darkBlue .orb .cell-st{background-color:#fff;color:#000;border-top:1px solid #90c2e7}
+.orb-darkBlue .orb .cell-leftmost{border-left:none!important}
+.orb-darkBlue .orb .cell-topmost{border-top:none!important}
+.orb-darkBlue .orb .header{background-color:#e8f2fa;color:#000}
+.orb-darkBlue .orb .header-gt,.orb-darkBlue .orb .header-st{color:#000;background-color:#e8f2fa}
+.orb-darkBlue .orb .header-leftmost{border-left:none!important}
+.orb-darkBlue .orb .header-row,.orb-darkBlue .orb .header-row-gt,.orb-darkBlue .orb .header-row-st{border-top:1px solid #90c2e7}
+.orb-darkBlue .orb .header-row-nofields{border-top:none!important}
+.orb-darkBlue .orb .header-col,.orb-darkBlue .orb .header-col-gt,.orb-darkBlue .orb .header-col-st{border-left:1px solid #90c2e7}
+.orb-darkBlue .orb .columns-cntr{border:1px solid #90c2e7;border-bottom:none;border-radius:4px 4px 0 0}
+.orb-darkBlue .orb .rows-cntr{border:1px solid #90c2e7;border-right:none;border-radius:4px 0 0 4px}
+.orb-darkBlue .orb .data-cntr{border:1px solid #90c2e7;border-radius:0 0 4px}
+.orb-darkBlue .orb .fld-btn{background-color:#2185d0;color:#fff;font-weight:700;height:25px;border:none;border-radius:4px;padding:4px 5px}
+.orb-darkBlue .orb .fld-btn:hover{background-color:rgba(33,133,208,.7)}
+.orb-darkBlue .orb .fld-btn:hover .fltr-btn{background-color:#2185d0}
+.orb-darkBlue .orb .fld-btn .fltr-btn-active,.orb-darkBlue .orb .fld-btn .fltr-btn:hover{background-color:#63a9de}
+.orb-darkBlue .orb .drp-trgt{height:27px}
+.orb-darkBlue .orb .drp-trgt-over{background-color:#f3f8fc}
+.orb-darkBlue .orb .drp-trgt-empty{border:1px dashed #90c2e7}
+.orb-darkBlue .orb .drp-indic{height:25px}
+.orb-darkBlue .orb .drp-indic-over{background-color:#90c2e7}
+.orb-darkBlue.fltr-cntnr{border:1px solid #90c2e7;box-shadow:0 5px 15px #797979}
+.orb-darkBlue .fltr-scntnr .srchbox-col,.orb-darkBlue .fltr-scntnr .srchop-col,.orb-darkBlue .fltr-scntnr .srchtyp-col{border:1px solid #90c2e7}
+.orb-darkBlue .fltr-scntnr .srchtyp-col:hover{border:1px solid rgba(33,133,208,.7)}
+.orb-darkBlue .fltr-scntnr .srchtyp-col-active{background-color:rgba(33,133,208,.7);color:#fff;border:1px solid rgba(33,133,208,.7)}
+.orb-darkBlue .fltr-scntnr .fltr-vals-col{border-bottom:1px solid #90c2e7}
+.orb-darkBlue .orb-btn{padding:1px 4px;background-color:#2185d0;color:#fff;border:none}
+.orb-darkBlue .orb-btn:hover{background-color:rgba(33,133,208,.7)}
+.orb-darkBlue .orb-tgl-btn div:hover{background-color:#90c2e7}
+.orb-darkBlue .orb-toolbar{background-color:#e8f2fa;border:1px solid #90c2e7}
+.orb-darkBlue .orb-tlbr-btn{border:1px solid #e8f2fa}
+.orb-darkBlue .orb-tlbr-btn:hover{border:1px solid #2185d0}
+.orb-darkBlue .orb-tlbr-sep{border-right:1px solid #90c2e7}
+.orb-darkBlue .orb-select,.orb-darkBlue .orb-select ul{border:1px solid #90c2e7}
+.orb-darkBlue .orb-select ul li:hover{background-color:rgba(33,133,208,.7)}
+.orb-darkBlue .orb-scrollthumb{background-color:#e8f2fa;border:1px solid #90c2e7;border-radius:3px}
+.orb-darkBlue .orb-scrollthumb-hover{background-color:#90c2e7}
+.orb-darkBlue.orb-overlay{background-color:rgba(121,121,121,.45)}
+.orb-darkBlue .orb-dialog{background-color:#fff;border:1px solid #797979;box-shadow:0 5px 15px #797979;padding:7px 13px}
+.orb-darkBlue .orb-dialog-header{background-color:#fff}
+.orb-darkBlue .orb-dialog-header .button-close{background-color:#fff;margin:5px 3px 1px 1px}
+.orb-darkBlue .orb-dialog-header .button-close:hover{background-color:#90c2e7}
+.orb-darkBlue .orb-table td,.orb-darkBlue .orb-table th{border-top:1px solid #90c2e7}
+.orb-darkBlue .orb-table th{background-color:#2185d0;color:#fff;border:1px solid #90c2e7;font-weight:700}
 .orb-green .orb{color:#000}
 .orb-green .orb .av-flds{border-bottom:1px solid #9fda8b!important}
 .orb-green .orb .flds-grp-cap div{color:#ccc}
@@ -375,38 +423,38 @@
 .orb-gray .orb .columns-cntr{border:1px solid #bfbfbf;border-bottom:none;border-radius:4px 4px 0 0}
 .orb-gray .orb .rows-cntr{border:1px solid #bfbfbf;border-right:none;border-radius:4px 0 0 4px}
 .orb-gray .orb .data-cntr{border:1px solid #bfbfbf;border-radius:0 0 4px}
-.orb-gray .orb .fld-btn{background-color:gray;color:#fff;font-weight:700;height:25px;border:none;border-radius:4px;padding:4px 5px}
+.orb-gray .orb .fld-btn{background-color:grey;color:#fff;font-weight:700;height:25px;border:none;border-radius:4px;padding:4px 5px}
 .orb-gray .orb .fld-btn:hover{background-color:rgba(128,128,128,.7)}
-.orb-gray .orb .fld-btn:hover .fltr-btn{background-color:gray}
+.orb-gray .orb .fld-btn:hover .fltr-btn{background-color:grey}
 .orb-gray .orb .fld-btn .fltr-btn-active,.orb-gray .orb .fld-btn .fltr-btn:hover{background-color:#a6a6a6}
 .orb-gray .orb .drp-trgt{height:27px}
 .orb-gray .orb .drp-trgt-over{background-color:#f8f8f8}
 .orb-gray .orb .drp-trgt-empty{border:1px dashed #bfbfbf}
 .orb-gray .orb .drp-indic{height:25px}
 .orb-gray .orb .drp-indic-over{background-color:#bfbfbf}
-.orb-gray.fltr-cntnr{border:1px solid #bfbfbf;box-shadow:0 5px 15px gray}
+.orb-gray.fltr-cntnr{border:1px solid #bfbfbf;box-shadow:0 5px 15px grey}
 .orb-gray .fltr-scntnr .srchbox-col,.orb-gray .fltr-scntnr .srchop-col,.orb-gray .fltr-scntnr .srchtyp-col{border:1px solid #bfbfbf}
 .orb-gray .fltr-scntnr .srchtyp-col:hover{border:1px solid rgba(128,128,128,.7)}
 .orb-gray .fltr-scntnr .srchtyp-col-active{background-color:rgba(128,128,128,.7);color:#fff;border:1px solid rgba(128,128,128,.7)}
 .orb-gray .fltr-scntnr .fltr-vals-col{border-bottom:1px solid #bfbfbf}
-.orb-gray .orb-btn{padding:1px 4px;background-color:gray;color:#fff;border:none}
+.orb-gray .orb-btn{padding:1px 4px;background-color:grey;color:#fff;border:none}
 .orb-gray .orb-btn:hover{background-color:rgba(128,128,128,.7)}
 .orb-gray .orb-tgl-btn div:hover{background-color:#bfbfbf}
 .orb-gray .orb-toolbar{background-color:#f2f2f2;border:1px solid #bfbfbf}
 .orb-gray .orb-tlbr-btn{border:1px solid #f2f2f2}
-.orb-gray .orb-tlbr-btn:hover{border:1px solid gray}
+.orb-gray .orb-tlbr-btn:hover{border:1px solid grey}
 .orb-gray .orb-tlbr-sep{border-right:1px solid #bfbfbf}
 .orb-gray .orb-select,.orb-gray .orb-select ul{border:1px solid #bfbfbf}
 .orb-gray .orb-select ul li:hover{background-color:rgba(128,128,128,.7)}
 .orb-gray .orb-scrollthumb{background-color:#f2f2f2;border:1px solid #bfbfbf;border-radius:3px}
 .orb-gray .orb-scrollthumb-hover{background-color:#bfbfbf}
 .orb-gray.orb-overlay{background-color:rgba(128,128,128,.45)}
-.orb-gray .orb-dialog{background-color:#fff;border:1px solid gray;box-shadow:0 5px 15px gray;padding:7px 13px}
+.orb-gray .orb-dialog{background-color:#fff;border:1px solid grey;box-shadow:0 5px 15px grey;padding:7px 13px}
 .orb-gray .orb-dialog-header{background-color:#fff}
 .orb-gray .orb-dialog-header .button-close{background-color:#fff;margin:5px 3px 1px 1px}
 .orb-gray .orb-dialog-header .button-close:hover{background-color:#bfbfbf}
 .orb-gray .orb-table td,.orb-gray .orb-table th{border-top:1px solid #bfbfbf}
-.orb-gray .orb-table th{background-color:gray;color:#fff;border:1px solid #bfbfbf;font-weight:700}
+.orb-gray .orb-table th{background-color:grey;color:#fff;border:1px solid #bfbfbf;font-weight:700}
 .orb-black .orb{color:#000}
 .orb-black .orb .av-flds{border-bottom:1px solid #7f7f7f!important}
 .orb-black .orb .flds-grp-cap div{color:#ccc}
@@ -490,14 +538,14 @@
 .orb-white .orb-tgl-btn div:hover{background-color:#d9d9d9}
 .orb-white .orb-toolbar{background-color:#fff;border:1px solid #d9d9d9}
 .orb-white .orb-tlbr-btn{border:1px solid #fff}
-.orb-white .orb-tlbr-btn:hover{border:1px solid gray}
+.orb-white .orb-tlbr-btn:hover{border:1px solid grey}
 .orb-white .orb-tlbr-sep{border-right:1px solid #d9d9d9}
 .orb-white .orb-select,.orb-white .orb-select ul{border:1px solid #d9d9d9}
 .orb-white .orb-select ul li:hover{background-color:rgba(128,128,128,.1)}
 .orb-white .orb-scrollthumb{background-color:#fff;border:1px solid #d9d9d9;border-radius:3px}
 .orb-white .orb-scrollthumb-hover{background-color:#d9d9d9}
 .orb-white.orb-overlay{background-color:rgba(0,0,0,.25)}
-.orb-white .orb-dialog{background-color:#fff;border:1px solid gray;box-shadow:0 5px 15px gray;padding:7px 13px}
+.orb-white .orb-dialog{background-color:#fff;border:1px solid grey;box-shadow:0 5px 15px grey;padding:7px 13px}
 .orb-white .orb-dialog-header{background-color:#fff}
 .orb-white .orb-dialog-header .button-close{background-color:#fff;margin:5px 3px 1px 1px}
 .orb-white .orb-dialog-header .button-close:hover{background-color:#d9d9d9}

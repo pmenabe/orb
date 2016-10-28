@@ -5,7 +5,7 @@
 
 'use strict';
 
-module.exports.FilterPanel = react.createClass({
+module.exports.FilterPanel = React.createClass({
 	pgridwidget: null,
 	values: null,
 	filterManager: null,
@@ -14,8 +14,8 @@ module.exports.FilterPanel = react.createClass({
 		return {};
 	},
 	destroy: function() {
-		var container = this.getDOMNode().parentNode;
-		React.unmountComponentAtNode(container);
+		var container = this.refs.filterPanel.parentNode;
+		ReactDom.unmountComponentAtNode(container);
 		container.parentNode.removeChild(container);
 	},
 	onFilter: function(operator, term, staticValue, excludeStatic) {
@@ -23,7 +23,7 @@ module.exports.FilterPanel = react.createClass({
 		this.destroy();
 	},
 	onMouseDown: function(e) {
-		var container = this.getDOMNode().parentNode;
+		var container = this.parentNode;
 		var target = e.target;
 		while(target != null) {
 			if(target == container) {
@@ -31,11 +31,9 @@ module.exports.FilterPanel = react.createClass({
 			}
 			target = target.parentNode;
 		}
-
-		this.destroy();
 	},
 	onMouseWheel: function(e) {
-		var valuesTable = this.refs.valuesTable.getDOMNode();		
+		var valuesTable = this.refs.valuesTable;		
 		var target = e.target;
 		while(target != null) {
 			if(target == valuesTable) {
@@ -56,7 +54,7 @@ module.exports.FilterPanel = react.createClass({
 		window.addEventListener('resize', this.destroy);
 	},
 	componentDidMount: function() {
-		this.filterManager.init(this.getDOMNode());
+		this.filterManager.init(this.refs.filterPanel);
 	},
 	componentWillUnmount : function() {
 		document.removeEventListener('mousedown', this.onMouseDown);
@@ -89,7 +87,7 @@ module.exports.FilterPanel = react.createClass({
 		}
 
 		var buttonClass = this.props.pivotTableComp.pgrid.config.theme.getButtonClasses().orbButton;
-		var pivotStyle = window.getComputedStyle(this.props.pivotTableComp.getDOMNode(), null );
+		var pivotStyle = window.getComputedStyle(this.props.pivotTableComp.refs.pivotWrapperTable, null );
 		var style = {
 			fontFamily: pivotStyle.getPropertyValue('font-family'),
             fontSize: pivotStyle.getPropertyValue('font-size')
@@ -97,7 +95,7 @@ module.exports.FilterPanel = react.createClass({
 
         var currentFilter = this.pgridwidget.pgrid.getFieldFilter(this.props.field);
 
-		return <table className="fltr-scntnr" style={style}>
+		return <table ref='filterPanel' className="fltr-scntnr" style={style}>
 		<tbody>
 			<tr>
 				<td className="srchop-col">

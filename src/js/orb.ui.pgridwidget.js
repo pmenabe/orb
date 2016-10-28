@@ -13,7 +13,8 @@ var pgrid = require('./orb.pgrid');
 var uiheaders = require('./orb.ui.header');
 var uirows = require('./orb.ui.rows');
 var uicols = require('./orb.ui.cols');
-//var React = require('react');
+var React = require('react');
+var ReactDom = require('react-dom');
 var OrbReactComps = require('./react/orb.react.compiled');
 /**
  * Creates a new instance of pivot grid control
@@ -133,9 +134,9 @@ module.exports = function(config) {
     this.toggleSubtotals = function(axetype) {
         if(self.pgrid.config.toggleSubtotals(axetype)) {
             buildUi();
-            return true;    
+            return true;
         }
-        return false;        
+        return false;
     };
 
     this.areSubtotalsVisible = function(axetype) {
@@ -145,7 +146,7 @@ module.exports = function(config) {
     this.toggleGrandtotal = function(axetype) {
         if(self.pgrid.config.toggleGrandtotal(axetype)) {
             buildUi();
-            return true;    
+            return true;
         }
         return false;
     };
@@ -166,7 +167,7 @@ module.exports = function(config) {
                 pgridwidget: self
             });
 
-            pivotComponent = React.render(pivottable, element);
+            pivotComponent = ReactDom.render(pivottable, element);
         }
     };
 
@@ -181,24 +182,26 @@ module.exports = function(config) {
 
             var title;
             if(dataCell.rowType === uiheaders.HeaderType.GRAND_TOTAL && dataCell.colType === uiheaders.HeaderType.GRAND_TOTAL) {
-                title = 'Grand total';
+                title = 'Total';
             } else {
                 if(dataCell.rowType === uiheaders.HeaderType.GRAND_TOTAL) {
-                    title = dataCell.columnDimension.value + '/Grand total ';
+                    title = dataCell.columnDimension.value + '/Total ';
                 } else if(dataCell.colType === uiheaders.HeaderType.GRAND_TOTAL) {
-                    title = dataCell.rowDimension.value + '/Grand total ';
+                    title = dataCell.rowDimension.value + '/Total ';
                 } else {
                     title = dataCell.rowDimension.value + '/' + dataCell.columnDimension.value;
                 }
             }
 
-            var pivotStyle = window.getComputedStyle( pivotComponent.getDOMNode(), null );
+            console.log('drilldown() pivotComponent', pivotComponent)
+
+            var pivotStyle = window.getComputedStyle( pivotComponent.refs.pivotContainer, null );
 
             dialog.show({
                 title: title,
                 comp: {
                     type: OrbReactComps.Grid,
-                    props: {                    
+                    props: {
                         headers: self.pgrid.config.getDataSourceFieldCaptions(),
                         data: data,
                         theme: self.pgrid.config.theme
@@ -224,7 +227,7 @@ module.exports = function(config) {
         var rowsHeaders = self.rows.headers;
         var columnsLeafHeaders = self.columns.leafsHeaders;
 
-        // set control layout infos		
+        // set control layout infos
         self.layout = {
             rowHeaders: {
                 width: (self.pgrid.rows.fields.length || 1) +

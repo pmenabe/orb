@@ -94,7 +94,7 @@ var dragManager = module.exports.DragManager = (function() {
 
 					if(_currDropTarget) {
 						var position = _currDropIndicator != null ? _currDropIndicator.position : null;
-						_pivotComp.moveButton(prevDragElement, _currDropTarget.component.props.axetype, position);
+            _pivotComp.moveButton(prevDragElement, _currDropTarget.axetype, position);
 					}
 
 					_dragNode = null;
@@ -102,7 +102,7 @@ var dragManager = module.exports.DragManager = (function() {
 					setCurrDropIndicator(null);
 
 				} else {
-					_dragNode = _currDragElement.getDOMNode();
+					_dragNode = _currDragElement;
 				}
 			}
 		},
@@ -149,12 +149,12 @@ var dragManager = module.exports.DragManager = (function() {
 		},
 		elementMoved: function() {
 			if(_currDragElement != null) {
-				var dragNodeRect = _dragNode.getBoundingClientRect();
+				var dragNodeRect = _dragNode.refs.filterButton.getBoundingClientRect();
 				var foundTarget;
 
 				reactUtils.forEach(_dropTargets, function(target) {
 					if(!foundTarget) {
-						var tnodeRect = target.component.getDOMNode().getBoundingClientRect();
+						var tnodeRect = target.component.getBoundingClientRect();
 						var isOverlap = doElementsOverlap(dragNodeRect, tnodeRect);
 						if(isOverlap) {
 							foundTarget = target;
@@ -163,37 +163,40 @@ var dragManager = module.exports.DragManager = (function() {
 					}
 				}, true);
 
-				if(foundTarget) {
-					setCurrDropTarget(foundTarget, function() {
-						var foundIndicator = null;
+				if (foundTarget) {
+          setCurrDropTarget(foundTarget, function() {
+		          var foundIndicator = null;
 
-						reactUtils.forEach(_dropIndicators, function(indicator, index) {
-							if(!foundIndicator) {
-								var elementOwnIndicator = indicator.component.props.axetype === _currDragElement.props.axetype &&
-														  indicator.component.props.position === _currDragElement.props.position;
+		          reactUtils.forEach(_dropIndicators, function(indicator, index) {
+		            if (!foundIndicator) {
+		              console.log('element indicator', indicator.component.props.axetype, _currDragElement.props.axetype, indicator.component.props.position, _currDragElement.props.position)
 
-								var targetIndicator = indicator.component.props.axetype === foundTarget.component.props.axetype;
-								if(targetIndicator && !elementOwnIndicator) {	
-									var tnodeRect = indicator.component.getDOMNode().getBoundingClientRect();
-									var isOverlap = doElementsOverlap(dragNodeRect, tnodeRect);
-									if(isOverlap) {
-										foundIndicator = indicator;
-										return;
-									}
-								}
-							}
-						});
+		              var elementOwnIndicator = indicator.component.props.axetype === _currDragElement.props.axetype &&
+		                indicator.component.props.position === _currDragElement.props.position;
 
-						if(!foundIndicator) {
-							var axeIndicators = _dropIndicators.filter(function(indicator) {
-								return indicator.component.props.axetype === foundTarget.component.props.axetype;
-							});
-							if(axeIndicators.length > 0) {
-								foundIndicator = axeIndicators[axeIndicators.length - 1];
-							}
-						}
-						setCurrDropIndicator(foundIndicator);
-					});
+		              //console.log('element Own Indicator', elementOwnIndicator, indicator, foundTarget)
+		              var targetIndicator = indicator.component.props.axetype === foundTarget.axetype;
+		              if (targetIndicator && !elementOwnIndicator) {
+		                var tnodeRect = indicator.component.refs.indicator.getBoundingClientRect();
+		                var isOverlap = doElementsOverlap(dragNodeRect, tnodeRect);
+		                if (isOverlap) {
+		                  foundIndicator = indicator;
+		                  return;
+		                }
+		              }
+		            }
+		          });
+
+		          if (!foundIndicator) {
+		            var axeIndicators = _dropIndicators.filter(function(indicator) {
+		              return indicator.component.props.axetype === foundTarget.axetype;
+		            });
+		            if (axeIndicators.length > 0) {
+		              foundIndicator = axeIndicators[axeIndicators.length - 1];
+		            }
+		          }
+		          setCurrDropIndicator(foundIndicator);
+		      });
 				}
 			}
 		}

@@ -5,7 +5,7 @@
 'use strict';
 
 
-module.exports.PivotRow = react.createClass({
+module.exports.PivotRow = React.createClass({
   render: function() {
     var self = this;
     var PivotCell = comps.PivotCell;

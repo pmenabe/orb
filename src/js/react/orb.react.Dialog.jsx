@@ -11,7 +11,7 @@ function createOverlay() {
   return overlayElement;
 }
 
-var Dialog = module.exports.Dialog = react.createClass({
+var Dialog = module.exports.Dialog = React.createClass({
   statics: {
     create: function() {
         var dialogFactory = React.createFactory(Dialog);
@@ -19,7 +19,7 @@ var Dialog = module.exports.Dialog = react.createClass({
 
         return {
           show: function(props) {
-            React.render(dialogFactory(props), overlay);
+            ReactDom.render(dialogFactory(props), overlay);
           }
         };
     }
@@ -29,7 +29,7 @@ var Dialog = module.exports.Dialog = react.createClass({
     this.overlayElement.className = this.props.theme.getDialogClasses(visible).overlay;
   },
   componentDidMount: function() {
-    this.overlayElement = this.getDOMNode().parentNode;
+    this.overlayElement = this.refs.dialog.parentNode;
     this.setOverlayClass(true);
     this.overlayElement.addEventListener('click', this.close);
 
@@ -61,7 +61,7 @@ var Dialog = module.exports.Dialog = react.createClass({
       var comp = React.createElement(this.props.comp.type, this.props.comp.props);
       var classes = this.props.theme.getDialogClasses();
 
-      return <div className={classes.dialog} style={ this.props.style || {} }> 
+      return <div ref='dialog' className={classes.dialog} style={ this.props.style || {} }> 
       <div className={classes.content}>
           <div className={classes.header}><div className="button-close" onClick={ this.close }></div><div className={classes.title}>{ this.props.title }</div></div>
           <div className={classes.body}>

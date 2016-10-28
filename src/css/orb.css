@@ -168,6 +168,7 @@
         width: 301px;
         height: 223px;
         padding: 3px;
+        z-index: 1003;
 
         /* filter-value */        
         .fltr-val {
@@ -361,7 +362,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    z-index: 3;
+    z-index: 1010;
     width: auto;
     margin-left: 0;
     background-color: rgba(128, 128, 128, 0.71);

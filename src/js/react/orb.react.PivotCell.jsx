@@ -8,7 +8,7 @@
 var _paddingLeft = null;
 var _borderLeft = null;
 
-module.exports.PivotCell = react.createClass({
+module.exports.PivotCell = React.createClass({
   expand: function() {
     this.props.pivotTableComp.expandRow(this.props.cell);
   },
@@ -16,7 +16,7 @@ module.exports.PivotCell = react.createClass({
     this.props.pivotTableComp.collapseRow(this.props.cell);
   },
   updateCellInfos: function() {
-    var node = this.getDOMNode();
+    var node = this.refs.cell;
     var cell = this.props.cell;
     node.__orb = node.__orb || {};
 
@@ -25,7 +25,7 @@ module.exports.PivotCell = react.createClass({
       node.__orb._visible = false;
 
     } else {
-      var cellContentNode = this.refs.cellContent.getDOMNode();
+      var cellContentNode = this.refs.cellContent;
 
       var text = node.textContent;
       var propList = [];
@@ -41,7 +41,7 @@ module.exports.PivotCell = react.createClass({
       }
 
       if(propList.length > 0) {
-        var nodeStyle = reactUtils.getStyle(node, propList, true);
+        var nodeStyle = reactUtils.getStyle(cellContentNode, propList, true);
 
         if(retPaddingLeft) {
           _paddingLeft = parseFloat(nodeStyle[0]);
@@ -52,7 +52,7 @@ module.exports.PivotCell = react.createClass({
         }
       }
 
-      reactUtils.removeClass(node, 'cell-hidden');
+      reactUtils.removeClass(cellContentNode, 'cell-hidden');
 
       node.__orb._visible = true;
       node.__orb._textWidth = reactUtils.getSize(cellContentNode).width;
@@ -134,7 +134,8 @@ module.exports.PivotCell = react.createClass({
     return <td className={getClassname(this.props)}
                onDoubleClick={ cellClick }
                colSpan={cell.hspan()}
-               rowSpan={cell.vspan()}>
+               rowSpan={cell.vspan()}
+               ref='cell'>
                 <div>
                   {divcontent}
                 </div>

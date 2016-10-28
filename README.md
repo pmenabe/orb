@@ -3,7 +3,7 @@ Pivot grid javascript library.
 
 **Website:** *[orbjs.net](http://orbjs.net/)*
 
-**Latest version:** 1.0.9 ([Release notes](http://orbjs.net/downloads.html#rl))
+**Latest version:** 1.0.10 ([Release notes](http://orbjs.net/downloads.html#rl))
 
 **cdnjs:** https://cdnjs.com/libraries/orb
 

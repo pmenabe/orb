@@ -15,6 +15,7 @@ module.exports = (function() {
     themeManager.themes = {
         red: '#C72C48',
         blue: '#5bc0de',
+        darkBlue: '#2185D0',
         green: '#3fb618',
         orange: '#df691a',
         flower: '#A74AC7',

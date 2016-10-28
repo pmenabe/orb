@@ -7,7 +7,7 @@
 
 var pbid = 0;
 
-module.exports.PivotButton = react.createClass({
+module.exports.PivotButton = React.createClass({
 	displayName: 'PivotButton',
 	getInitialState: function () {
 		this.pbid = ++pbid;
@@ -24,8 +24,8 @@ module.exports.PivotButton = react.createClass({
 		// left mouse button only
 		if (e.button !== 0) return;
 
-		var filterButton = this.refs.filterButton.getDOMNode();
-		var filterButtonPos = reactUtils.getOffset(filterButton);
+		var filterButton = this.refs.filterButton;
+		var filterButtonPos = reactUtils.getOffset(this.refs.filterButton);
 		var filterContainer = document.createElement('div');
 
         var filterPanelFactory = React.createFactory(comps.FilterPanel);
@@ -39,7 +39,7 @@ module.exports.PivotButton = react.createClass({
         filterContainer.style.left = filterButtonPos.x + 'px';
         document.body.appendChild(filterContainer);
 
-        React.render(filterPanel, filterContainer);
+        ReactDom.render(filterPanel, filterContainer);
 
 		// prevent event bubbling (to prevent text selection while dragging for example)
 		e.stopPropagation();
@@ -73,14 +73,23 @@ module.exports.PivotButton = react.createClass({
 			this.props.pivotTableComp.toggleFieldExpansion(this.props.axetype, this.props.field);
 		} else {
 
-			var thispos = reactUtils.getOffset(this.getDOMNode());
+			var thispos = reactUtils.getOffset(this.refs.filterButton);
 			
+      let modalContentPos = $('#modal-content > div:first').position()
+
+      if (!modalContentPos) {
+          modalContentPos = {
+              left: 0,
+              top: 0
+          }
+      }
+
 			// inform mousedown, save start pos
 			this.setState({
 				mousedown: true,
 				mouseoffset: {
-					x: thispos.x - e.pageX,
-					y: thispos.y - e.pageY,
+					x: thispos.x - e.pageX - modalContentPos.left,
+					y: thispos.y - e.pageY - modalContentPos.top
 				},
 				startpos: {
 					x: e.pageX,
@@ -118,7 +127,7 @@ module.exports.PivotButton = react.createClass({
 
 		var size = null;
 		if(!this.state.dragging) {
-			size = reactUtils.getSize(this.getDOMNode());
+			size = reactUtils.getSize(this.refs.filterButton);
 		} else {
 			size = this.state.size;
 		}
@@ -140,7 +149,7 @@ module.exports.PivotButton = react.createClass({
 		e.preventDefault();
 	},
 	updateClasses: function() {
-		this.getDOMNode().className = this.props.pivotTableComp.pgrid.config.theme.getButtonClasses().pivotButton;
+		this.className = this.props.pivotTableComp.pgrid.config.theme.getButtonClasses().pivotButton;
 	},
 	render: function() {
 		var self = this;
@@ -168,7 +177,7 @@ module.exports.PivotButton = react.createClass({
 			fieldAggFunc = <small>{' (' + self.props.field.aggregateFuncName + ')' }</small>;
 		}
 
-		return <div key={self.props.field.name} 
+		return <div ref="filterButton" key={self.props.field.name} 
 		            className={this.props.pivotTableComp.pgrid.config.theme.getButtonClasses().pivotButton}
 		            onMouseDown={this.onMouseDown}
 		            onMouseUp={this.onMouseUp}
@@ -179,7 +188,7 @@ module.exports.PivotButton = react.createClass({
 		            			<td className="caption">{self.props.field.caption}{fieldAggFunc}</td>
 		            			<td><div className={'sort-indicator ' + sortDirectionClass}></div></td>
 		            			<td className="filter">
-		            				<div ref="filterButton" className={filterClass} onMouseDown={self.state.dragging ? null : this.onFilterMouseDown}></div>
+		            				<div className={filterClass} onMouseDown={self.state.dragging ? null : this.onFilterMouseDown}></div>
 		            			</td>
 		            		</tr>
 		            	</tbody>

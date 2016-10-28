@@ -7,7 +7,7 @@
 var pivotId = 1;
 var themeChangeCallbacks = {};
 
-module.exports.PivotTable = react.createClass({
+module.exports.PivotTable = React.createClass({
   id: pivotId++,
   pgrid: null,
   pgridwidget: null,
@@ -23,39 +23,39 @@ module.exports.PivotTable = react.createClass({
   },
   sort: function(axetype, field) {
     this.pgridwidget.sort(axetype, field);
-    this.setProps({});
+    this.forceUpdate();
   },
   moveButton: function(button, newAxeType, position) {
     if(this.pgridwidget.moveField(button.props.field.name, button.props.axetype, newAxeType, position)) {
-      this.setProps({});
+      this.forceUpdate();
     }
   },
   toggleFieldExpansion: function(axetype, field, newState) {
     if(this.pgridwidget.toggleFieldExpansion(axetype, field, newState)) {
-      this.setProps({});
+      this.forceUpdate();
     }
   },
   toggleSubtotals: function(axetype) {
     if(this.pgridwidget.toggleSubtotals(axetype)) {
-      this.setProps({});
+      this.forceUpdate();
     }
   },
   toggleGrandtotal: function(axetype) {
     if(this.pgridwidget.toggleGrandtotal(axetype)) {
-      this.setProps({});
+      this.forceUpdate();
     }
   },
   expandRow: function(cell) {
     cell.expand();
-    this.setProps({});
+    this.forceUpdate();
   },
   collapseRow: function(cell) {
     cell.subtotalHeader.collapse();
-    this.setProps({});
+    this.forceUpdate();
   },
   applyFilter: function(fieldname, operator, term, staticValue, excludeStatic) {
     this.pgridwidget.applyFilter(fieldname, operator, term, staticValue, excludeStatic);
-    this.setProps({});
+    this.forceUpdate();
   },
   registerThemeChanged: function(compCallback) {
     if(compCallback) {
@@ -77,7 +77,7 @@ module.exports.PivotTable = react.createClass({
     }
   },
   updateClasses: function() {
-      var thisnode = this.getDOMNode();
+      var thisnode = this;
       var classes = this.pgridwidget.pgrid.config.theme.getPivotClasses();    
       thisnode.className = classes.container;
       thisnode.children[1].className = classes.table;
@@ -86,10 +86,10 @@ module.exports.PivotTable = react.createClass({
     this.synchronizeCompsWidths();
   },
   componentDidMount: function() {
-    var dataCellsContainerNode = this.refs.dataCellsContainer.getDOMNode();
-    var dataCellsTableNode = this.refs.dataCellsTable.getDOMNode();
-    var colHeadersContainerNode = this.refs.colHeadersContainer.getDOMNode();
-    var rowHeadersContainerNode = this.refs.rowHeadersContainer.getDOMNode();
+    var dataCellsContainerNode = ReactDom.findDOMNode(this.refs.dataCellsContainer);
+    var dataCellsTableNode = ReactDom.findDOMNode(this.refs.dataCellsTable);
+    var colHeadersContainerNode = ReactDom.findDOMNode(this.refs.colHeadersContainer);
+    var rowHeadersContainerNode = ReactDom.findDOMNode(this.refs.rowHeadersContainer);
 
     this.refs.horizontalScrollBar.setScrollClient(dataCellsContainerNode, function(scrollPercent) {
       var scrollAmount = Math.ceil(
@@ -120,11 +120,11 @@ module.exports.PivotTable = react.createClass({
     var scrollbar;
     var amount;
 
-    if(e.currentTarget == (elem = this.refs.colHeadersContainer.getDOMNode())) {
+    if(e.currentTarget == (elem = this.refs.colHeadersContainer)) {
       scrollbar = this.refs.horizontalScrollBar;
       amount = e.deltaX || e.deltaY;
-    } else if((e.currentTarget == (elem = this.refs.rowHeadersContainer.getDOMNode())) ||
-              (e.currentTarget == (elem = this.refs.dataCellsContainer.getDOMNode())) ) {
+    } else if((e.currentTarget == (elem = this.refs.rowHeadersContainer)) ||
+              (e.currentTarget == (elem = this.refs.dataCellsContainer)) ) {
       scrollbar = this.refs.verticalScrollBar;
       amount = e.deltaY;
     }
@@ -137,7 +137,7 @@ module.exports.PivotTable = react.createClass({
   synchronizeCompsWidths: function() {
       var self = this;
 
-      var pivotWrapperTable = self.refs.pivotWrapperTable.getDOMNode();
+      var pivotWrapperTable = ReactDom.findDOMNode(self.refs.pivotWrapperTable);
 
       var nodes = (function() {
         var nds = {};
@@ -146,8 +146,9 @@ module.exports.PivotTable = react.createClass({
          'toolbar', 'horizontalScrollBar', 'verticalScrollBar'].forEach(function(refname) {
           if(self.refs[refname]) {
             nds[refname] = {
-              node: self.refs[refname].getDOMNode()
+              node: ReactDom.findDOMNode(self.refs[refname])
             };
+
             nds[refname].size = reactUtils.getSize(nds[refname].node);
           }
         });
@@ -156,17 +157,18 @@ module.exports.PivotTable = react.createClass({
 
       // colHeadersTable
       nodes.colHeadersTable = {
-        node: nodes.colHeadersContainer.node.children[0]
+          node: nodes.colHeadersContainer.node.children[0]
       };
       nodes.colHeadersTable.size = reactUtils.getSize(nodes.colHeadersTable.node);
 
       // rowHeadersTable
       nodes.rowHeadersTable = {
-        node: nodes.rowHeadersContainer.node.children[0]
+          node: nodes.rowHeadersContainer.node.children[0]
       };
       nodes.rowHeadersTable.size = reactUtils.getSize(nodes.rowHeadersTable.node);
 
       // get row buttons container width
+      //nodes.rowButtonsContainer.node.style.width = '';
       var rowButtonsContainerWidth = reactUtils.getSize(nodes.rowButtonsContainer.node.children[0]).width;
 
       // get array of dataCellsTable column widths
@@ -181,7 +183,7 @@ module.exports.PivotTable = react.createClass({
       var dataCellsTableMaxWidth = 0;
 
       for(var i = 0; i < nodes.dataCellsTable.widthArray.length; i++) {
-        var mxwidth = Math.max(nodes.dataCellsTable.widthArray[i], nodes.colHeadersTable.widthArray[i]);
+        var mxwidth = Math.max(nodes.dataCellsTable.widthArray[i] + 16, nodes.colHeadersTable.widthArray[i] + 16);
         dataCellsTableMaxWidthArray.push(mxwidth);
         dataCellsTableMaxWidth += mxwidth;
       }
@@ -309,7 +311,7 @@ module.exports.PivotTable = react.createClass({
             </td>
             <td>
               <div className="inner-table-container data-cntr" ref="dataCellsContainer" onWheel={this.onWheel}>
-                <PivotTableDataCells pivotTableComp={self} ref="dataCellsTable"></PivotTableDataCells>
+                <PivotTableDataCells ref="dataCellsTable" pivotTableComp={self}></PivotTableDataCells>
               </div>
             </td>
             <td>

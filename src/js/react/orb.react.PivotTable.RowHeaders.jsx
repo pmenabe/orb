@@ -4,10 +4,10 @@
 
 'use strict';
 
-module.exports.PivotTableRowHeaders = react.createClass({
+module.exports.PivotTableRowHeaders = React.createClass({
   setColGroup: function(widths) {
-    var node = this.getDOMNode();
-    var colGroupNode = this.refs.colgroup.getDOMNode();
+    var node = this.refs.rowHeadersContainer;
+    var colGroupNode = this.refs.colgroup;
     node.style.tableLayout = 'auto';
 
     colGroupNode.innerHTML = '';

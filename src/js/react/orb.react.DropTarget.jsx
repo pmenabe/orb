@@ -7,18 +7,18 @@
 
 var dtid = 0;
 
-module.exports.DropTarget = react.createClass({
+module.exports.DropTarget = React.createClass({
 	getInitialState: function () {
 		this.dtid = ++dtid;
 		return {
 			isover: false
 		};
 	},
-  	componentDidMount: function() {
-  		dragManager.registerTarget(this, this.props.axetype, this.onDragOver, this.onDragEnd);
-  	},
+	componentDidMount: function() {
+		dragManager.registerTarget(this.refs.drpTrgt, this.props.axetype, this.onDragOver, this.onDragEnd);
+	},
 	componentWillUnmount : function() {
-		dragManager.unregisterTarget(this);
+		dragManager.unregisterTarget(this.refs.drpTrgt);
 	},
 	onDragOver: function(callback) {
 		if(this.isMounted()) {
@@ -59,7 +59,7 @@ module.exports.DropTarget = react.createClass({
 
 		var style = self.props.axetype === axe.Type.ROWS ? { position: 'absolute', left: 0, bottom: 11 } : null;
 
-		return <div className={'drp-trgt' + (this.state.isover ? ' drp-trgt-over' : '') + (buttons.length === 0 ? ' drp-trgt-empty' : '')} style={style}>
+		return <div ref='drpTrgt' className={'drp-trgt' + (this.state.isover ? ' drp-trgt-over' : '') + (buttons.length === 0 ? ' drp-trgt-empty' : '')} style={style}>
 			<table>
 			<tbody>
 				<tr>
