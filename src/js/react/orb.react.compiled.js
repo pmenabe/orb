@@ -286,6 +286,8 @@ module.exports.PivotTable = React.createClass({
         var HorizontalScrollBar = comps.HorizontalScrollBar;
         var VerticalScrollBar = comps.VerticalScrollBar;
 
+        console.log('PivotTable render()', config)
+
         var classes = config.theme.getPivotClasses();
 
         var tblStyle = {};
@@ -304,7 +306,7 @@ module.exports.PivotTable = React.createClass({
                 },
                 config.toolbar && config.toolbar.visible ? React.createElement("div", {
                         ref: "toolbar",
-                        className: "orb-toolbar"
+                        className: ""
                     },
                     React.createElement(Toolbar, {
                         pivotTableComp: self
@@ -348,11 +350,7 @@ module.exports.PivotTable = React.createClass({
                                 ref: "columnbuttonsRow"
                             },
                             React.createElement("td", null),
-                            React.createElement("td", {
-                                    style: {
-                                        padding: '11px 4px !important'
-                                    }
-                                },
+                            React.createElement("td", null,
                                 React.createElement(PivotTableColumnButtons, {
                                     pivotTableComp: self
                                 })
@@ -1052,7 +1050,6 @@ var dragManager = module.exports.DragManager = (function() {
 
                         reactUtils.forEach(_dropIndicators, function(indicator, index) {
                             if (!foundIndicator) {
-                                console.log('element indicator', indicator.component.props.axetype, _currDragElement.props.axetype, indicator.component.props.position, _currDragElement.props.position)
 
                                 var elementOwnIndicator = indicator.component.props.axetype === _currDragElement.props.axetype &&
                                     indicator.component.props.position === _currDragElement.props.position;
@@ -1220,7 +1217,7 @@ module.exports.DropTarget = React.createClass({
         var style = self.props.axetype === axe.Type.ROWS ? {
             position: 'absolute',
             left: 0,
-            bottom: 11
+            bottom: 0
         } : null;
 
         return React.createElement("div", {
@@ -1268,6 +1265,7 @@ module.exports.PivotButton = React.createClass({
     },
     onFilterMouseDown: function(e) {
         // left mouse button only
+        console.log('onFilterMouseDown()', e, e.button)
         if (e.button !== 0) return;
 
         var filterButton = this.refs.filterButton;
@@ -1431,26 +1429,22 @@ module.exports.PivotButton = React.createClass({
                 onMouseUp: this.onMouseUp,
                 style: divstyle
             },
-            React.createElement("table", null,
-                React.createElement("tbody", null,
-                    React.createElement("tr", null,
-                        React.createElement("td", {
-                            className: "caption"
-                        }, self.props.field.caption, fieldAggFunc),
-                        React.createElement("td", null, React.createElement("div", {
-                            className: 'sort-indicator ' + sortDirectionClass
-                        })),
-                        React.createElement("td", {
-                                className: "filter"
-                            },
-                            React.createElement("div", {
-                                className: filterClass,
-                                onMouseDown: self.state.dragging ? null : this.onFilterMouseDown
-                            })
-                        )
-                    )
-                )
-            )
+            React.createElement("i", {
+                className: filterClass + " filter icon",
+                onMouseDown: this.state.dragging ? null : this.onFilterMouseDown
+            }),
+            this.props.field.caption, fieldAggFunc
+            /* <table>
+            	<tbody>
+            		<tr>
+            			<td className="caption">{self.props.field.caption}{fieldAggFunc}</td>
+            			<td><div className={'sort-indicator ' + sortDirectionClass}></div></td>
+            			<td className="filter">
+            				<div className={filterClass} onMouseDown={self.state.dragging ? null : this.onFilterMouseDown}></div>
+            			</td>
+            		</tr>
+            	</tbody>
+            </table> */
         );
     }
 });
@@ -1482,11 +1476,6 @@ module.exports.PivotTableUpperButtons = React.createClass({
             });
             fieldsDropTarget = React.createElement("tr", null,
                 React.createElement("td", {
-                        className: "flds-grp-cap av-flds text-muted"
-                    },
-                    React.createElement("div", null, "Fields")
-                ),
-                React.createElement("td", {
                         className: "av-flds"
                     },
                     React.createElement(DropTarget, {
@@ -1511,11 +1500,6 @@ module.exports.PivotTableUpperButtons = React.createClass({
 
         var dataDropTarget = React.createElement("tr", null,
             React.createElement("td", {
-                    className: "flds-grp-cap text-muted"
-                },
-                React.createElement("div", null, "Data")
-            ),
-            React.createElement("td", {
                     className: "empty"
                 },
                 React.createElement(DropTarget, {
@@ -1529,7 +1513,21 @@ module.exports.PivotTableUpperButtons = React.createClass({
                 className: "inner-table upper-buttons"
             },
             React.createElement("tbody", null,
+                React.createElement("tr", null,
+                    React.createElement("td", {
+                            className: "flds-grp-cap"
+                        },
+                        React.createElement("div", null, "Fields")
+                    )
+                ),
                 fieldsDropTarget,
+                React.createElement("tr", null,
+                    React.createElement("td", {
+                            className: "flds-grp-cap"
+                        },
+                        React.createElement("div", null, "Data")
+                    )
+                ),
                 dataDropTarget
             )
         );
@@ -2050,105 +2048,78 @@ module.exports.FilterPanel = React.createClass({
 
         var currentFilter = this.pgridwidget.pgrid.getFieldFilter(this.props.field);
 
-        return React.createElement("table", {
+        return React.createElement("div", {
                 ref: "filterPanel",
-                className: "fltr-scntnr",
+                className: "ui container filter-panel",
                 style: style
             },
-            React.createElement("tbody", null,
-                React.createElement("tr", null,
-                    React.createElement("td", {
-                            className: "srchop-col"
-                        },
-                        React.createElement(Dropdown, {
-                            values: [
-                                filtering.Operators.MATCH.name,
-                                filtering.Operators.NOTMATCH.name,
-                                filtering.Operators.EQ.name,
-                                filtering.Operators.NEQ.name,
-                                filtering.Operators.GT.name,
-                                filtering.Operators.GTE.name,
-                                filtering.Operators.LT.name,
-                                filtering.Operators.LTE.name
-                            ],
-                            selectedValue: currentFilter && currentFilter.operator ? currentFilter.operator.name : filtering.Operators.MATCH.name,
-                            onValueChanged: this.filterManager.onOperatorChanged
-                        })
-                    ),
-                    React.createElement("td", {
-                        className: "srchtyp-col",
-                        title: "Enable/disable Regular expressions"
-                    }, ".*"),
-                    React.createElement("td", {
-                            className: "srchbox-col"
-                        },
-                        React.createElement("table", {
-                                style: {
-                                    width: '100%'
-                                }
-                            },
-                            React.createElement("tbody", null,
-                                React.createElement("tr", null,
-                                    React.createElement("td", null, React.createElement("input", {
-                                        type: "text",
-                                        placeholder: "search"
-                                    })),
-                                    React.createElement("td", null, React.createElement("div", {
-                                        className: "srchclear-btn",
-                                        onClick: this.clearFilter
-                                    }, "x"))
-                                )
-                            )
-                        )
-                    )
-                ),
-                React.createElement("tr", null,
-                    React.createElement("td", {
-                            colSpan: "3",
-                            className: "fltr-vals-col"
-                        },
-                        React.createElement("table", {
-                                className: "fltr-vals-tbl",
-                                ref: "valuesTable"
-                            },
-                            React.createElement("tbody", null,
-                                checkboxes
-                            )
-                        )
-                    )
-                ),
-                React.createElement("tr", {
-                        className: "bottom-row"
+            React.createElement("div", {
+                    className: "form"
+                },
+                React.createElement("div", {
+                        className: "field"
                     },
-                    React.createElement("td", {
-                            className: "cnfrm-btn-col",
-                            colSpan: "2"
+                    React.createElement(Dropdown, {
+                        values: [
+                            filtering.Operators.MATCH.name,
+                            filtering.Operators.NOTMATCH.name,
+                            filtering.Operators.EQ.name,
+                            filtering.Operators.NEQ.name,
+                            filtering.Operators.GT.name,
+                            filtering.Operators.GTE.name,
+                            filtering.Operators.LT.name,
+                            filtering.Operators.LTE.name
+                        ],
+                        selectedValue: currentFilter && currentFilter.operator ? currentFilter.operator.name : filtering.Operators.MATCH.name,
+                        onValueChanged: this.filterManager.onOperatorChanged
+                    })
+                ),
+                React.createElement("div", {
+                        className: "field"
+                    },
+                    React.createElement("div", {
+                            className: "ui fluid icon input"
                         },
-                        React.createElement("input", {
-                            type: "button",
-                            className: buttonClass,
-                            value: "Ok",
-                            style: {
-                                float: 'left'
-                            }
+                        React.createElement("i", {
+                            className: "search icon"
                         }),
                         React.createElement("input", {
-                            type: "button",
-                            className: buttonClass,
-                            value: "Cancel",
-                            style: {
-                                float: 'left'
-                            }
+                            type: "text",
+                            className: "search-field",
+                            placeholder: "Search..."
                         })
-                    ),
-                    React.createElement("td", {
-                            className: "resize-col"
-                        },
-                        React.createElement("div", null)
                     )
                 )
+            ),
+
+            React.createElement("div", {
+                    className: "ui segment"
+                },
+                React.createElement("table", {
+                        className: "fltr-vals-tbl",
+                        ref: "valuesTable"
+                    },
+                    React.createElement("tbody", null,
+                        checkboxes
+                    )
+                )
+            ),
+
+            React.createElement("div", {
+                    className: "form"
+                },
+                React.createElement("input", {
+                    type: "button",
+                    className: "ui blue mini button",
+                    value: "Ok"
+                }),
+                React.createElement("input", {
+                    type: "button",
+                    className: "ui red mini button",
+                    value: "Cancel"
+                })
             )
-        );
+        )
     }
 });
 
@@ -2182,15 +2153,18 @@ function FilterManager(reactComp, initialFilterObject) {
     this.init = function(filterContainerElement) {
 
         elems.filterContainer = filterContainerElement;
-        elems.checkboxes = {};
-        elems.searchBox = elems.filterContainer.rows[0].cells[2].children[0].rows[0].cells[0].children[0];
-        elems.clearSearchButton = elems.filterContainer.rows[0].cells[2].children[0].rows[0].cells[1].children[0];
-        elems.operatorBox = elems.filterContainer.rows[0].cells[0].children[0];
-        elems.okButton = elems.filterContainer.rows[2].cells[0].children[0];
-        elems.cancelButton = elems.filterContainer.rows[2].cells[0].children[1];
-        elems.resizeGrip = elems.filterContainer.rows[2].cells[1].children[0];
 
-        var rows = elems.filterContainer.rows[1].cells[0].children[0].rows;
+        console.log('FilterManager()', elems.filterContainer)
+
+        elems.checkboxes = {};
+        elems.searchBox = elems.filterContainer.children[0].children[1].children[0].children[1];
+        elems.clearSearchButton = null; //elems.filterContainer.rows[0].cells[2].children[0].rows[0].cells[1].children[0];
+        elems.operatorBox = elems.filterContainer.children[0].children[0].children[0];
+        elems.okButton = elems.filterContainer.children[2].children[0];
+        elems.cancelButton = elems.filterContainer.children[2].children[1];
+        elems.resizeGrip = null; //elems.filterContainer.rows[2].cells[1].children[0];
+
+        var rows = elems.filterContainer.children[1].children[0].rows;
         for (var i = 0; i < rows.length; i++) {
             var checkbox = rows[i].cells[0].children[0];
             elems.checkboxes[checkbox.value] = checkbox;
@@ -2198,9 +2172,9 @@ function FilterManager(reactComp, initialFilterObject) {
 
         elems.allCheckbox = elems.checkboxes[filtering.ALL];
         elems.addCheckbox = null;
-        elems.enableRegexButton = elems.filterContainer.rows[0].cells[1];
+        elems.enableRegexButton = true; //elems.filterContainer.rows[0].cells[1];
 
-        resizeManager = new ResizeManager(elems.filterContainer.parentNode, elems.filterContainer.rows[1].cells[0].children[0], elems.resizeGrip);
+        resizeManager = null //new ResizeManager(elems.filterContainer.parentNode, elems.filterContainer.rows[1].cells[0].children[0], elems.resizeGrip);
 
         applyInitialFilterObject();
         addEventListeners();
@@ -2261,7 +2235,7 @@ function FilterManager(reactComp, initialFilterObject) {
         elems.filterContainer.addEventListener('click', self.valueChecked);
         elems.searchBox.addEventListener('keyup', self.searchChanged);
 
-        elems.clearSearchButton.addEventListener('click', self.clearSearchBox);
+        //elems.clearSearchButton.addEventListener('click', self.clearSearchBox);
 
         elems.okButton.addEventListener('click', function() {
             var checkedObj = self.getCheckedValues();
@@ -2350,14 +2324,14 @@ function FilterManager(reactComp, initialFilterObject) {
     };
 
     this.toggleRegexpButtonVisibility = function() {
-        if (operator.regexpSupported) {
-            elems.enableRegexButton.addEventListener('click', self.regexpActiveChanged);
-            reactUtils.removeClass(elems.enableRegexButton, 'srchtyp-col-hidden');
-
-        } else {
-            elems.enableRegexButton.removeEventListener('click', self.regexpActiveChanged);
-            reactUtils.addClass(elems.enableRegexButton, 'srchtyp-col-hidden');
-        }
+        /*		if(operator.regexpSupported) {
+        			elems.enableRegexButton.addEventListener('click', self.regexpActiveChanged);
+        			reactUtils.removeClass(elems.enableRegexButton, 'srchtyp-col-hidden');
+        			
+        		} else {
+        			elems.enableRegexButton.removeEventListener('click', self.regexpActiveChanged);
+        			reactUtils.addClass(elems.enableRegexButton, 'srchtyp-col-hidden');
+        		}*/
     };
 
     this.toggleRegexpButtonState = function() {
@@ -2820,15 +2794,10 @@ module.exports.Toolbar = React.createClass({
                 var btnConfig = configButtons[i];
                 var refName = 'btn' + i;
 
-                if (btnConfig.type == 'separator') {
+                if (btnConfig.type == 'separator') {} else if (btnConfig.type == 'label') {
                     buttons.push(React.createElement("div", {
                         key: i,
-                        className: "orb-tlbr-sep"
-                    }));
-                } else if (btnConfig.type == 'label') {
-                    buttons.push(React.createElement("div", {
-                        key: i,
-                        className: "orb-tlbr-lbl"
+                        className: "header item"
                     }, btnConfig.text));
                 } else {
                     buttons.push(React.createElement("div", {
@@ -2847,7 +2816,9 @@ module.exports.Toolbar = React.createClass({
                 }
             }
 
-            return React.createElement("div", null,
+            return React.createElement("div", {
+                    className: "ui menu"
+                },
                 buttons
             );
         }

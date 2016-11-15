@@ -30,6 +30,7 @@ var Aggregations = module.exports = {
         forEachIntersection(datafield, intersection, datasource, function(val) {
             sum += val;
         });
+
         return sum;
     },
     min: function(datafield, intersection, datasource) {

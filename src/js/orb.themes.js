@@ -7,6 +7,7 @@ module.exports = (function() {
 
     var currentTheme = 'blue';
     var themeManager = {};
+    var buttonClass = 'fld-btn';
 
     function isBootstrap() {
         return currentTheme === 'bootstrap';
@@ -32,6 +33,12 @@ module.exports = (function() {
         return currentTheme;
     };
 
+    themeManager.buttonClass = function(newButtonClass) {
+        if (newButtonClass) {
+            buttonClass = newButtonClass
+        }
+    }
+
     themeManager.validateTheme = function(themeName) {
         themeName = (themeName || '').toString().trim();
         if (!themeManager.themes[themeName] && themeName !== 'bootstrap') {
@@ -50,7 +57,7 @@ module.exports = (function() {
 
     themeManager.getButtonClasses = function() {
         return {
-            pivotButton: 'fld-btn' + (isBootstrap() ? ' btn btn-default btn-xs' : ''),
+            pivotButton: buttonClass + (isBootstrap() ? ' btn btn-default btn-xs' : ''),
             orbButton: 'orb-btn' + (isBootstrap() ? ' btn btn-default btn-xs' : ''),
             scrollBar: isBootstrap() ? ' btn btn-default btn-xs' : ''
         };

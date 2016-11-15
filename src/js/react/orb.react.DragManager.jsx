@@ -169,7 +169,6 @@ var dragManager = module.exports.DragManager = (function() {
 
 		          reactUtils.forEach(_dropIndicators, function(indicator, index) {
 		            if (!foundIndicator) {
-		              console.log('element indicator', indicator.component.props.axetype, _currDragElement.props.axetype, indicator.component.props.position, _currDragElement.props.position)
 
 		              var elementOwnIndicator = indicator.component.props.axetype === _currDragElement.props.axetype &&
 		                indicator.component.props.position === _currDragElement.props.position;

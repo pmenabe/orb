@@ -108,13 +108,10 @@
         }
 
         .drp-trgt {
-            height: 27px;
+            min-height: 41px;
             &-over {
                 background-color: @drop-target-over-color-bg;
             }
-        }
-        .drp-trgt-empty {
-            border: 1px dashed @cell-color-border;
         }
         .drp-indic {
             height: 25px;
@@ -125,10 +122,6 @@
         }
     }
 
-    &.fltr-cntnr {
-        border: 1px solid @cell-color-border;
-        box-shadow: 0 5px 15px @filter-container-color-shadow;
-    }
     .fltr-scntnr {
         .srchbox-col {
             border: 1px solid @cell-color-border;
@@ -173,27 +166,8 @@
         border: 1px solid @toolbar-color-border;
     }
 
-    .orb-tlbr-btn {
-        border: 1px solid @toolbar-color-bg;
-    }
-
-    .orb-tlbr-btn:hover {
-        border: 1px solid @toolbar-btn-hover-border;
-    }
-
     .orb-tlbr-sep {
         border-right: 1px solid @toolbar-color-border;
-    }
-
-    .orb-select {
-        border: 1px solid @cell-color-border;
-
-        ul {
-            border: 1px solid @cell-color-border;
-        }
-        ul li:hover {
-            background-color: @fieldbutton-color-bg-alpha;
-        }
     }
 
     .orb-scrollthumb {

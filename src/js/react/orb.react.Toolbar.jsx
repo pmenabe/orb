@@ -44,9 +44,8 @@ module.exports.Toolbar = React.createClass({
         var refName = 'btn' + i;
 
         if(btnConfig.type == 'separator') {
-          buttons.push(<div key={i} className="orb-tlbr-sep"></div>);
         } else if(btnConfig.type == 'label') {
-          buttons.push(<div key={i} className="orb-tlbr-lbl">{btnConfig.text}</div>);
+          buttons.push(<div key={i} className="header item">{btnConfig.text}</div>);
         } else {
           buttons.push(<div key={i} className={'orb-tlbr-btn ' + btnConfig.cssClass} title={btnConfig.tooltip} ref={refName} onClick={ this.createCallback(btnConfig.action) }></div>);
         }
@@ -58,8 +57,8 @@ module.exports.Toolbar = React.createClass({
         }
       }
 
-      return <div>
-        { buttons }
+      return  <div className="ui menu">
+          {buttons}
         </div>;
     }
 

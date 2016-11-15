@@ -201,9 +201,11 @@ module.exports.config = function(config) {
     this.width = config.width;
     this.height = config.height;
     this.toolbar = config.toolbar;
+    this.buttonClass = config.buttonClass;
     this.theme = themeManager;
 
     themeManager.current(config.theme);
+    themeManager.buttonClass(config.buttonClass);
 
     this.rowSettings = new Field(config.rowSettings, false);
     this.columnSettings = new Field(config.columnSettings, false);

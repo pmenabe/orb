@@ -23,9 +23,6 @@ module.exports.PivotTableUpperButtons = React.createClass({
                </PivotButton>;
       });
       fieldsDropTarget = <tr>
-        <td className="flds-grp-cap av-flds text-muted">
-          <div>Fields</div>
-        </td>
         <td className="av-flds">
           <DropTarget buttons={fieldsButtons} axetype={null}>
           </DropTarget>
@@ -45,9 +42,6 @@ module.exports.PivotTableUpperButtons = React.createClass({
     });
 
     var dataDropTarget = <tr>
-      <td className="flds-grp-cap text-muted">
-        <div>Data</div>
-      </td>
       <td className="empty">
         <DropTarget buttons={dataButtons} axetype={axe.Type.DATA}>
         </DropTarget>
@@ -56,8 +50,18 @@ module.exports.PivotTableUpperButtons = React.createClass({
 
     return <table className="inner-table upper-buttons">
         <tbody>
-        {fieldsDropTarget}
-        {dataDropTarget}
+          <tr>
+            <td className="flds-grp-cap">
+              <div>Fields</div>
+            </td>
+          </tr>
+          {fieldsDropTarget}
+          <tr>
+            <td className="flds-grp-cap">
+              <div>Data</div>
+            </td>
+          </tr>
+          {dataDropTarget}
         </tbody>
     </table>;
   }

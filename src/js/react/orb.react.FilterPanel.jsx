@@ -95,54 +95,42 @@ module.exports.FilterPanel = React.createClass({
 
         var currentFilter = this.pgridwidget.pgrid.getFieldFilter(this.props.field);
 
-		return <table ref='filterPanel' className="fltr-scntnr" style={style}>
-		<tbody>
-			<tr>
-				<td className="srchop-col">
-					<Dropdown values={[
-								filtering.Operators.MATCH.name,
-								filtering.Operators.NOTMATCH.name,
-								filtering.Operators.EQ.name,
-								filtering.Operators.NEQ.name,
-								filtering.Operators.GT.name,
-								filtering.Operators.GTE.name,
-								filtering.Operators.LT.name,
-								filtering.Operators.LTE.name
-						]} selectedValue={currentFilter && currentFilter.operator ? currentFilter.operator.name : filtering.Operators.MATCH.name} onValueChanged={ this.filterManager.onOperatorChanged }>
-					</Dropdown>
-				</td>
-				<td className="srchtyp-col" title="Enable/disable Regular expressions">.*</td>
-				<td className="srchbox-col">
-					<table style={{width: '100%'}}>
+		return <div ref='filterPanel' className='ui container filter-panel' style={style}>
+        <div className='form'>
+          <div className="field">
+          	<Dropdown values={[
+							filtering.Operators.MATCH.name,
+							filtering.Operators.NOTMATCH.name,
+							filtering.Operators.EQ.name,
+							filtering.Operators.NEQ.name,
+							filtering.Operators.GT.name,
+							filtering.Operators.GTE.name,
+							filtering.Operators.LT.name,
+							filtering.Operators.LTE.name
+							]} selectedValue={currentFilter && currentFilter.operator ? currentFilter.operator.name : filtering.Operators.MATCH.name} onValueChanged={ this.filterManager.onOperatorChanged }>
+						</Dropdown>
+          </div>
+          <div className="field">
+            <div className="ui fluid icon input">
+              <i className="search icon"></i>
+              <input type="text" className='search-field' placeholder="Search..."/>
+            </div>
+          </div>
+        </div>
+        
+        <div className='ui segment'>
+        	<table className="fltr-vals-tbl" ref="valuesTable">
 						<tbody>
-							<tr>
-								<td><input type="text" placeholder="search"/></td>
-								<td><div className="srchclear-btn" onClick={this.clearFilter}>x</div></td>
-							</tr>
+							{checkboxes}
 						</tbody>
-					</table>					
-				</td>
-			</tr>
-			<tr>
-				<td colSpan="3" className="fltr-vals-col">
-					<table className="fltr-vals-tbl" ref="valuesTable">
-					<tbody>
-						{checkboxes}
-					</tbody>
 					</table>
-				</td>
-			</tr>
-			<tr className="bottom-row">
-				<td className="cnfrm-btn-col" colSpan="2">
-					<input type="button" className={buttonClass} value="Ok" style={{ float: 'left' }}/>
-					<input type="button" className={buttonClass} value="Cancel" style={{ float: 'left' }}/>
-				</td>
-				<td className="resize-col">
-					<div></div>
-				</td>
-			</tr>
-		</tbody>
-		</table>;
+        </div>
+
+        <div className='form'>
+          <input type="button" className='ui blue mini button' value="Ok"/>
+          <input type="button" className='ui red mini button' value="Cancel"/>
+        </div>
+      </div>
 	}
 });
 
@@ -176,15 +164,18 @@ function FilterManager(reactComp, initialFilterObject) {
 	this.init = function(filterContainerElement) {
 
 		elems.filterContainer = filterContainerElement;
-		elems.checkboxes = {};
-		elems.searchBox = elems.filterContainer.rows[0].cells[2].children[0].rows[0].cells[0].children[0];
-		elems.clearSearchButton = elems.filterContainer.rows[0].cells[2].children[0].rows[0].cells[1].children[0];
-		elems.operatorBox = elems.filterContainer.rows[0].cells[0].children[0];
-		elems.okButton = elems.filterContainer.rows[2].cells[0].children[0];
-		elems.cancelButton = elems.filterContainer.rows[2].cells[0].children[1];
-		elems.resizeGrip = elems.filterContainer.rows[2].cells[1].children[0];
 
-		var rows = elems.filterContainer.rows[1].cells[0].children[0].rows;
+		console.log('FilterManager()', elems.filterContainer)
+
+		elems.checkboxes = {};
+		elems.searchBox = elems.filterContainer.children[0].children[1].children[0].children[1];
+		elems.clearSearchButton = null; //elems.filterContainer.rows[0].cells[2].children[0].rows[0].cells[1].children[0];
+		elems.operatorBox = elems.filterContainer.children[0].children[0].children[0];
+		elems.okButton = elems.filterContainer.children[2].children[0];
+		elems.cancelButton = elems.filterContainer.children[2].children[1];
+		elems.resizeGrip = null; //elems.filterContainer.rows[2].cells[1].children[0];
+
+		var rows = elems.filterContainer.children[1].children[0].rows;
 		for(var i = 0; i < rows.length; i++) {
 			var checkbox = rows[i].cells[0].children[0];
 			elems.checkboxes[checkbox.value] = checkbox;
@@ -192,9 +183,9 @@ function FilterManager(reactComp, initialFilterObject) {
 
 		elems.allCheckbox = elems.checkboxes[filtering.ALL];
 		elems.addCheckbox = null;
-		elems.enableRegexButton = elems.filterContainer.rows[0].cells[1];
+		elems.enableRegexButton = true; //elems.filterContainer.rows[0].cells[1];
 
-		resizeManager = new ResizeManager(elems.filterContainer.parentNode, elems.filterContainer.rows[1].cells[0].children[0], elems.resizeGrip);
+		resizeManager = null//new ResizeManager(elems.filterContainer.parentNode, elems.filterContainer.rows[1].cells[0].children[0], elems.resizeGrip);
 
 		applyInitialFilterObject();
 		addEventListeners();
@@ -255,7 +246,7 @@ function FilterManager(reactComp, initialFilterObject) {
 		elems.filterContainer.addEventListener('click', self.valueChecked);
 		elems.searchBox.addEventListener('keyup', self.searchChanged);
 
-		elems.clearSearchButton.addEventListener('click', self.clearSearchBox);
+		//elems.clearSearchButton.addEventListener('click', self.clearSearchBox);
 		
 		elems.okButton.addEventListener('click', function() { 
 			var checkedObj = self.getCheckedValues();
@@ -341,14 +332,14 @@ function FilterManager(reactComp, initialFilterObject) {
 	};
 
 	this.toggleRegexpButtonVisibility = function() {
-		if(operator.regexpSupported) {
+/*		if(operator.regexpSupported) {
 			elems.enableRegexButton.addEventListener('click', self.regexpActiveChanged);
 			reactUtils.removeClass(elems.enableRegexButton, 'srchtyp-col-hidden');
 			
 		} else {
 			elems.enableRegexButton.removeEventListener('click', self.regexpActiveChanged);
 			reactUtils.addClass(elems.enableRegexButton, 'srchtyp-col-hidden');
-		}
+		}*/
 	};
 
 	this.toggleRegexpButtonState = function() {

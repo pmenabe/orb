@@ -265,6 +265,8 @@ module.exports.PivotTable = React.createClass({
     var HorizontalScrollBar = comps.HorizontalScrollBar;
     var VerticalScrollBar = comps.VerticalScrollBar;
 
+    console.log('PivotTable render()', config)
+
     var classes = config.theme.getPivotClasses();    
 
     var tblStyle = {};
@@ -273,7 +275,7 @@ module.exports.PivotTable = React.createClass({
 
     return (
     <div className={classes.container} style={tblStyle} ref="pivotContainer">
-      {config.toolbar && config.toolbar.visible ? <div ref="toolbar" className="orb-toolbar">
+      {config.toolbar && config.toolbar.visible ? <div ref="toolbar" className="">
         <Toolbar pivotTableComp={self}></Toolbar>
       </div> : null}
       <table id={'tbl-' + self.id} ref="pivotWrapperTable" className={classes.table} style={{tableLayout: 'fixed'}}>
@@ -291,7 +293,7 @@ module.exports.PivotTable = React.createClass({
           </tr>
           <tr ref="columnbuttonsRow">
             <td></td>
-            <td style={{padding: '11px 4px !important'}}>
+            <td>
               <PivotTableColumnButtons pivotTableComp={self}></PivotTableColumnButtons>
             </td>
             <td colSpan="2"></td>

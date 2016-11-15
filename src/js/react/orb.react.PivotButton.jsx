@@ -22,6 +22,7 @@ module.exports.PivotButton = React.createClass({
 	},
 	onFilterMouseDown: function(e) {
 		// left mouse button only
+		console.log('onFilterMouseDown()', e, e.button)
 		if (e.button !== 0) return;
 
 		var filterButton = this.refs.filterButton;
@@ -160,15 +161,19 @@ module.exports.PivotButton = React.createClass({
 			zIndex: 101
 		};
 
+		var buttonTextStyle = {
+			display: 'inline-flex'
+		}
+
 		if(self.state.size) {
 			divstyle.width = self.state.size.width + 'px';
 		}
 
 		var sortDirectionClass = self.props.field.sort.order === 'asc' ? 
-			'sort-asc' :
+			'sort ascending ' :
 			//' \u2191' :
 			(self.props.field.sort.order === 'desc' ?
-				'sort-desc' :
+				'sort descending ' :
 				//' \u2193' :
 				'' );
 		var filterClass = (self.state.dragging ? '' : 'fltr-btn') + (this.props.pivotTableComp.pgrid.isFieldFiltered(this.props.field.name) ? ' fltr-btn-active' : '');
@@ -182,7 +187,9 @@ module.exports.PivotButton = React.createClass({
 		            onMouseDown={this.onMouseDown}
 		            onMouseUp={this.onMouseUp}
 		            style={divstyle}>
-		            <table>
+		            <i className={filterClass + " filter icon"} onMouseDown={this.state.dragging ? null : this.onFilterMouseDown}></i>
+		            <div style={buttonTextStyle}>{this.props.field.caption}{fieldAggFunc} <i className={sortDirectionClass + 'icon'}></i></div>
+		            {/* <table>
 		            	<tbody>
 		            		<tr>
 		            			<td className="caption">{self.props.field.caption}{fieldAggFunc}</td>
@@ -192,7 +199,7 @@ module.exports.PivotButton = React.createClass({
 		            			</td>
 		            		</tr>
 		            	</tbody>
-		            </table>
+		            </table> */}
 		        </div>;
 	}
 });

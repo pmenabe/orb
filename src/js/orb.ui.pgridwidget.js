@@ -8,14 +8,15 @@
 /* global module, require, React, window */
 /*jshint eqnull: true*/
 
-var axe = require('./orb.axe');
-var pgrid = require('./orb.pgrid');
-var uiheaders = require('./orb.ui.header');
-var uirows = require('./orb.ui.rows');
-var uicols = require('./orb.ui.cols');
-var React = require('react');
-var ReactDom = require('react-dom');
-var OrbReactComps = require('./react/orb.react.compiled');
+const _ = require('lodash');
+const axe = require('./orb.axe');
+const pgrid = require('./orb.pgrid');
+const uiheaders = require('./orb.ui.header');
+const uirows = require('./orb.ui.rows');
+const uicols = require('./orb.ui.cols');
+const React = require('react');
+const ReactDom = require('react-dom');
+const OrbReactComps = require('./react/orb.react.compiled');
 /**
  * Creates a new instance of pivot grid control
  * @class
@@ -51,6 +52,8 @@ module.exports = function(config) {
      * @type {orb.ui.CellBase}
      */
     this.dataRows = [];
+
+    this.filters = {};
 
     this.layout = {
         rowHeaders: {
@@ -109,7 +112,27 @@ module.exports = function(config) {
         pivotComponent.setProps({});
     };
 
+    this.getFilters = function() {
+        return self.filters;
+    }
+
+    this.getRows = function() {
+        return self.rows;
+    }
+
+    this.getColumns = function() {
+        return self.columns;
+    }
+
+    this.getDataRows = function() {
+        return self.pgrid.config.dataFields;
+    }
+
     this.applyFilter = function(fieldname, operator, term, staticValue, excludeStatic) {
+        let fieldIndex = _.findIndex(config.fields, function(f) { return f.name == fieldname })
+        
+        self.filters[config.fields[fieldIndex].name] = staticValue
+
         self.pgrid.applyFilter(fieldname, operator, term, staticValue, excludeStatic);
         buildUi();
     };
