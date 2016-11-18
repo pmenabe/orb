@@ -70,10 +70,14 @@ module.exports.FilterPanel = React.createClass({
 
 		function addCheckboxRow(value, text) {
 			return checkboxes.push(<tr key={value}>
-				<td className="fltr-chkbox">
-					<input type="checkbox" value={value} defaultChecked="checked"/>
-				</td>
-				<td className="fltr-val" title={text || value}>{text || value}</td>
+					<td className="fltr-chkbox">
+						<div className='field'>
+							<div className='ui checkbox'>
+								<input type="checkbox" value={value} defaultChecked="checked"/>
+								<label title={text || value}>{text || value}</label>
+							</div>
+						</div>
+					</td>
 				</tr>);
 		}
 
@@ -165,8 +169,6 @@ function FilterManager(reactComp, initialFilterObject) {
 
 		elems.filterContainer = filterContainerElement;
 
-		console.log('FilterManager()', elems.filterContainer)
-
 		elems.checkboxes = {};
 		elems.searchBox = elems.filterContainer.children[0].children[1].children[0].children[1];
 		elems.clearSearchButton = null; //elems.filterContainer.rows[0].cells[2].children[0].rows[0].cells[1].children[0];
@@ -177,13 +179,13 @@ function FilterManager(reactComp, initialFilterObject) {
 
 		var rows = elems.filterContainer.children[1].children[0].rows;
 		for(var i = 0; i < rows.length; i++) {
-			var checkbox = rows[i].cells[0].children[0];
+			var checkbox = rows[i].cells[0].children[0].children[0].children[0];
 			elems.checkboxes[checkbox.value] = checkbox;
 		}
 
 		elems.allCheckbox = elems.checkboxes[filtering.ALL];
 		elems.addCheckbox = null;
-		elems.enableRegexButton = true; //elems.filterContainer.rows[0].cells[1];
+		//elems.enableRegexButton = elems.filterContainer.rows[0].cells[1];
 
 		resizeManager = null//new ResizeManager(elems.filterContainer.parentNode, elems.filterContainer.rows[1].cells[0].children[0], elems.resizeGrip);
 
@@ -332,23 +334,27 @@ function FilterManager(reactComp, initialFilterObject) {
 	};
 
 	this.toggleRegexpButtonVisibility = function() {
-/*		if(operator.regexpSupported) {
+	/*	
+		if(operator.regexpSupported) {
 			elems.enableRegexButton.addEventListener('click', self.regexpActiveChanged);
 			reactUtils.removeClass(elems.enableRegexButton, 'srchtyp-col-hidden');
 			
 		} else {
 			elems.enableRegexButton.removeEventListener('click', self.regexpActiveChanged);
 			reactUtils.addClass(elems.enableRegexButton, 'srchtyp-col-hidden');
-		}*/
+		}
+	*/
 	};
 
 	this.toggleRegexpButtonState = function() {
+	/*	
 		elems.enableRegexButton.className = elems.enableRegexButton.className.replace('srchtyp-col-active', '');
 		if(isRegexMode) {
 			reactUtils.addClass(elems.enableRegexButton, 'srchtyp-col-active');
 		} else {
 			reactUtils.removeClass(elems.enableRegexButton, 'srchtyp-col-active');
 		}
+	*/
 	};
 
 	this.regexpActiveChanged = function() { 
@@ -393,7 +399,7 @@ function FilterManager(reactComp, initialFilterObject) {
 				savedCheckedValues = self.getCheckedValues();
 			}
 
-			//var searchTerm = operator.regexpSupported && isSearchMode ? new RegExp(isRegexMode ? search : utils.escapeRegex(search), 'i') : search;
+			var searchTerm = operator.regexpSupported && isSearchMode ? new RegExp(isRegexMode ? search : utils.escapeRegex(search), 'i') : search;
 			if(e !== 'operatorChanged' || isSearchMode) {
 				self.applyFilterTerm(operator, search);
 			}

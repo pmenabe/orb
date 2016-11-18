@@ -180,7 +180,7 @@
 
         /* filter-checkbox */        
         .fltr-chkbox {
-            width: 16px;
+            width: auto;
         }
     }
 
