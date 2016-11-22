@@ -265,8 +265,6 @@ module.exports.PivotTable = React.createClass({
     var HorizontalScrollBar = comps.HorizontalScrollBar;
     var VerticalScrollBar = comps.VerticalScrollBar;
 
-    console.log('PivotTable render()', config)
-
     var classes = config.theme.getPivotClasses();    
 
     var tblStyle = {};

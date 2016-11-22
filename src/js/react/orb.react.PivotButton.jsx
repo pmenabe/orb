@@ -76,7 +76,7 @@ module.exports.PivotButton = React.createClass({
 
 			var thispos = reactUtils.getOffset(this.refs.filterButton);
 			
-      let modalContentPos = $('#modal-content > div:first').position()
+      var modalContentPos = $('#modal-content > div:first').position()
 
       if (!modalContentPos) {
           modalContentPos = {

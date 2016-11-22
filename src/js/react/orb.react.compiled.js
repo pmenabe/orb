@@ -286,8 +286,6 @@ module.exports.PivotTable = React.createClass({
         var HorizontalScrollBar = comps.HorizontalScrollBar;
         var VerticalScrollBar = comps.VerticalScrollBar;
 
-        console.log('PivotTable render()', config)
-
         var classes = config.theme.getPivotClasses();
 
         var tblStyle = {};
@@ -1319,7 +1317,7 @@ module.exports.PivotButton = React.createClass({
 
             var thispos = reactUtils.getOffset(this.refs.filterButton);
 
-            let modalContentPos = $('#modal-content > div:first').position()
+            var modalContentPos = $('#modal-content > div:first').position()
 
             if (!modalContentPos) {
                 modalContentPos = {
