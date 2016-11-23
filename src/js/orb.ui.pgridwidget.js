@@ -130,7 +130,6 @@ module.exports = function(config) {
 
     this.applyFilter = function(fieldname, operator, term, staticValue, excludeStatic) {
         var fieldIndex = _.findIndex(config.fields, function(f) { 
-            console.log('Filters name', f.name, fieldname, term, staticValue, excludeStatic)
             return f.name == fieldname 
         })
         
