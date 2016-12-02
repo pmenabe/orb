@@ -163,6 +163,14 @@
         }
     }
 
+    .icon.button {
+        display: inline-flex;
+    }
+
+    .icon.button > .icon {
+        padding-right: 25px;
+    }
+
     /* filter-container */    
     &.fltr-cntnr {
         position: fixed;

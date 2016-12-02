@@ -55,9 +55,12 @@ var dragManager = module.exports.DragManager = (function() {
 	}
 
 	function signalDragEnd(target, callback) {
-		if(target && target.onDragEnd) {
+		//console.log('signalDragEnd()', target)
+		if(target && target.onDragEnd && (!target.position || (target.position != 0))) {
+			console.log('with signalDragEnd()', target)
 			target.onDragEnd(callback);
 		} else if(callback) {
+			console.log('without signalDragEnd()', target)
 			callback();
 		}
 	}
@@ -173,7 +176,6 @@ var dragManager = module.exports.DragManager = (function() {
 		              var elementOwnIndicator = indicator.component.props.axetype === _currDragElement.props.axetype &&
 		                indicator.component.props.position === _currDragElement.props.position;
 
-		              //console.log('element Own Indicator', elementOwnIndicator, indicator, foundTarget)
 		              var targetIndicator = indicator.component.props.axetype === foundTarget.axetype;
 		              if (targetIndicator && !elementOwnIndicator) {
 		                var tnodeRect = indicator.component.refs.indicator.getBoundingClientRect();
@@ -194,6 +196,8 @@ var dragManager = module.exports.DragManager = (function() {
 		              foundIndicator = axeIndicators[axeIndicators.length - 1];
 		            }
 		          }
+
+		          //console.log('elementMoved() foundIndicator', foundIndicator)
 		          setCurrDropIndicator(foundIndicator);
 		      });
 				}

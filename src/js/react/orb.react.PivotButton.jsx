@@ -104,7 +104,7 @@ module.exports.PivotButton = React.createClass({
 		e.preventDefault();
 	},
 	onMouseUp: function(e) {
-		
+		console.log('onMouseUp()', e.button)
 		var isdragged = this.state.dragging;
 
 		this.setState({

@@ -218,8 +218,6 @@ module.exports = function(config) {
                 }
             }
 
-            console.log('drilldown() pivotComponent', pivotComponent)
-
             var pivotStyle = window.getComputedStyle( pivotComponent.refs.pivotContainer, null );
 
             dialog.show({
