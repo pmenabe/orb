@@ -55,12 +55,9 @@ var dragManager = module.exports.DragManager = (function() {
 	}
 
 	function signalDragEnd(target, callback) {
-		//console.log('signalDragEnd()', target)
 		if(target && target.onDragEnd && (!target.position || (target.position != 0))) {
-			console.log('with signalDragEnd()', target)
 			target.onDragEnd(callback);
 		} else if(callback) {
-			console.log('without signalDragEnd()', target)
 			callback();
 		}
 	}
@@ -197,7 +194,6 @@ var dragManager = module.exports.DragManager = (function() {
 		            }
 		          }
 
-		          //console.log('elementMoved() foundIndicator', foundIndicator)
 		          setCurrDropIndicator(foundIndicator);
 		      });
 				}

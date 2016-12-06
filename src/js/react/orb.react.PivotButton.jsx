@@ -22,7 +22,6 @@ module.exports.PivotButton = React.createClass({
 	},
 	onFilterMouseDown: function(e) {
 		// left mouse button only
-		console.log('onFilterMouseDown()', e, e.button)
 		if (e.button !== 0) return;
 
 		var filterButton = this.refs.filterButton;
@@ -104,7 +103,6 @@ module.exports.PivotButton = React.createClass({
 		e.preventDefault();
 	},
 	onMouseUp: function(e) {
-		console.log('onMouseUp()', e.button)
 		var isdragged = this.state.dragging;
 
 		this.setState({
@@ -189,17 +187,6 @@ module.exports.PivotButton = React.createClass({
 		            style={divstyle}>
 		            <i className={filterClass + " filter icon"} onMouseDown={this.state.dragging ? null : this.onFilterMouseDown}></i>
 		            <div style={buttonTextStyle}>{this.props.field.caption}{fieldAggFunc} <i className={sortDirectionClass + 'icon'}></i></div>
-		            {/* <table>
-		            	<tbody>
-		            		<tr>
-		            			<td className="caption">{self.props.field.caption}{fieldAggFunc}</td>
-		            			<td><div className={'sort-indicator ' + sortDirectionClass}></div></td>
-		            			<td className="filter">
-		            				<div className={filterClass} onMouseDown={self.state.dragging ? null : this.onFilterMouseDown}></div>
-		            			</td>
-		            		</tr>
-		            	</tbody>
-		            </table> */}
 		        </div>;
 	}
 });

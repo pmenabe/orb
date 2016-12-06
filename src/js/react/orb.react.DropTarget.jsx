@@ -41,32 +41,46 @@ module.exports.DropTarget = React.createClass({
 	render: function() {	
 		var self = this;
 		var DropIndicator = module.exports.DropIndicator;
+		var dropTarget = []
+		var buttons = []
 
-		var buttons = this.props.buttons.map(function(button, index) {			
-			if(index < self.props.buttons.length - 1) {
-				return [
-					<td><DropIndicator isFirst={index === 0} position={index} axetype={self.props.axetype}></DropIndicator></td>,
-					<td>{ button }</td>
-				];
-			} else {
-				return [
-					<td><DropIndicator isFirst={index === 0} position={index} axetype={self.props.axetype}></DropIndicator></td>,
-					<td>{ button }</td>,
-					<td><DropIndicator isLast={true} position={null} axetype={self.props.axetype}></DropIndicator></td>
-				];
-			}
-		});
-
+		if (this.props.upperButtons) {
+			buttons = this.props.buttons.map(function(button, index) {			
+				if(index < self.props.buttons.length - 1) {
+					return [
+						<div className='drp-trgt-item'><DropIndicator isFirst={index === 0} position={index} axetype={self.props.axetype}></DropIndicator></div>,
+						<div className='drp-trgt-item'>{ button }</div>
+					];
+				} else {
+					return [
+						<div className='drp-trgt-item'><DropIndicator isFirst={index === 0} position={index} axetype={self.props.axetype}></DropIndicator></div>,
+						<div className='drp-trgt-item'>{ button }</div>,
+						<div className='drp-trgt-item'><DropIndicator isLast={true} position={null} axetype={self.props.axetype}></DropIndicator></div>
+					];
+				}
+			});
+			dropTarget = buttons
+		} else {
+			buttons = this.props.buttons.map(function(button, index) {			
+				if(index < self.props.buttons.length - 1) {
+					return [
+						<td><DropIndicator isFirst={index === 0} position={index} axetype={self.props.axetype}></DropIndicator></td>,
+						<td>{ button }</td>
+					];
+				} else {
+					return [
+						<td><DropIndicator isFirst={index === 0} position={index} axetype={self.props.axetype}></DropIndicator></td>,
+						<td>{ button }</td>,
+						<td><DropIndicator isLast={true} position={null} axetype={self.props.axetype}></DropIndicator></td>
+					];
+				}
+			});
+			dropTarget.push(<table key='dropTarget'><tbody><tr>{buttons}</tr></tbody></table>);
+		}
 		var style = self.props.axetype === axe.Type.ROWS ? { position: 'absolute', left: 0, bottom: 0} : null;
 
 		return <div ref='drpTrgt' className={'drp-trgt' + (this.state.isover ? ' drp-trgt-over' : '') + (buttons.length === 0 ? ' drp-trgt-empty' : '')} style={style}>
-			<table>
-			<tbody>
-				<tr>
-					{buttons}
-				</tr>
-			</tbody>
-			</table>
+			{dropTarget}
 		</div>;
 	}
 });

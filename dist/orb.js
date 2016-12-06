@@ -35212,7 +35212,6 @@
                 };
 
                 this.measureFunc = function(datafieldname, multi, aggregateFunc, fieldsConfig) {
-
                     var outerArgs = {
                         datafieldname: self.getCaptionName(datafieldname),
                         multi: multi,
@@ -37610,12 +37609,9 @@
                 }
 
                 function signalDragEnd(target, callback) {
-                    //console.log('signalDragEnd()', target)
                     if (target && target.onDragEnd && (!target.position || (target.position != 0))) {
-                        console.log('with signalDragEnd()', target)
                         target.onDragEnd(callback);
                     } else if (callback) {
-                        console.log('without signalDragEnd()', target)
                         callback();
                     }
                 }
@@ -37752,7 +37748,6 @@
                                         }
                                     }
 
-                                    //console.log('elementMoved() foundIndicator', foundIndicator)
                                     setCurrDropIndicator(foundIndicator);
                                 });
                             }
@@ -37851,34 +37846,78 @@
                 render: function() {
                     var self = this;
                     var DropIndicator = module.exports.DropIndicator;
+                    var dropTarget = []
+                    var buttons = []
 
-                    var buttons = this.props.buttons.map(function(button, index) {
-                        if (index < self.props.buttons.length - 1) {
-                            return [
-                                React.createElement("td", null, React.createElement(DropIndicator, {
-                                    isFirst: index === 0,
-                                    position: index,
-                                    axetype: self.props.axetype
-                                })),
-                                React.createElement("td", null, button)
-                            ];
-                        } else {
-                            return [
-                                React.createElement("td", null, React.createElement(DropIndicator, {
-                                    isFirst: index === 0,
-                                    position: index,
-                                    axetype: self.props.axetype
-                                })),
-                                React.createElement("td", null, button),
-                                React.createElement("td", null, React.createElement(DropIndicator, {
-                                    isLast: true,
-                                    position: null,
-                                    axetype: self.props.axetype
-                                }))
-                            ];
-                        }
-                    });
-
+                    if (this.props.upperButtons) {
+                        buttons = this.props.buttons.map(function(button, index) {
+                            if (index < self.props.buttons.length - 1) {
+                                return [
+                                    React.createElement("div", {
+                                        className: "drp-trgt-item"
+                                    }, React.createElement(DropIndicator, {
+                                        isFirst: index === 0,
+                                        position: index,
+                                        axetype: self.props.axetype
+                                    })),
+                                    React.createElement("div", {
+                                        className: "drp-trgt-item"
+                                    }, button)
+                                ];
+                            } else {
+                                return [
+                                    React.createElement("div", {
+                                        className: "drp-trgt-item"
+                                    }, React.createElement(DropIndicator, {
+                                        isFirst: index === 0,
+                                        position: index,
+                                        axetype: self.props.axetype
+                                    })),
+                                    React.createElement("div", {
+                                        className: "drp-trgt-item"
+                                    }, button),
+                                    React.createElement("div", {
+                                        className: "drp-trgt-item"
+                                    }, React.createElement(DropIndicator, {
+                                        isLast: true,
+                                        position: null,
+                                        axetype: self.props.axetype
+                                    }))
+                                ];
+                            }
+                        });
+                        dropTarget = buttons
+                    } else {
+                        buttons = this.props.buttons.map(function(button, index) {
+                            if (index < self.props.buttons.length - 1) {
+                                return [
+                                    React.createElement("td", null, React.createElement(DropIndicator, {
+                                        isFirst: index === 0,
+                                        position: index,
+                                        axetype: self.props.axetype
+                                    })),
+                                    React.createElement("td", null, button)
+                                ];
+                            } else {
+                                return [
+                                    React.createElement("td", null, React.createElement(DropIndicator, {
+                                        isFirst: index === 0,
+                                        position: index,
+                                        axetype: self.props.axetype
+                                    })),
+                                    React.createElement("td", null, button),
+                                    React.createElement("td", null, React.createElement(DropIndicator, {
+                                        isLast: true,
+                                        position: null,
+                                        axetype: self.props.axetype
+                                    }))
+                                ];
+                            }
+                        });
+                        dropTarget.push(React.createElement("table", {
+                            key: "dropTarget"
+                        }, React.createElement("tbody", null, React.createElement("tr", null, buttons))));
+                    }
                     var style = self.props.axetype === axe.Type.ROWS ? {
                         position: 'absolute',
                         left: 0,
@@ -37890,13 +37929,7 @@
                             className: 'drp-trgt' + (this.state.isover ? ' drp-trgt-over' : '') + (buttons.length === 0 ? ' drp-trgt-empty' : ''),
                             style: style
                         },
-                        React.createElement("table", null,
-                            React.createElement("tbody", null,
-                                React.createElement("tr", null,
-                                    buttons
-                                )
-                            )
-                        )
+                        dropTarget
                     );
                 }
             });
@@ -37924,7 +37957,6 @@
                 },
                 onFilterMouseDown: function(e) {
                     // left mouse button only
-                    console.log('onFilterMouseDown()', e, e.button)
                     if (e.button !== 0) return;
 
                     var filterButton = this.refs.filterButton;
@@ -38006,7 +38038,6 @@
                     e.preventDefault();
                 },
                 onMouseUp: function(e) {
-                    console.log('onMouseUp()', e.button)
                     var isdragged = this.state.dragging;
 
                     this.setState({
@@ -38101,7 +38132,6 @@
                         }, this.props.field.caption, fieldAggFunc, " ", React.createElement("i", {
                             className: sortDirectionClass + 'icon'
                         }))
-
                     );
                 }
             });
@@ -38132,6 +38162,7 @@
                                 },
                                 React.createElement(DropTarget, {
                                     buttons: fieldsButtons,
+                                    upperButtons: true,
                                     axetype: null
                                 })
                             )
@@ -38156,6 +38187,7 @@
                             },
                             React.createElement(DropTarget, {
                                 buttons: dataButtons,
+                                upperButtons: true,
                                 axetype: axe.Type.DATA
                             })
                         )

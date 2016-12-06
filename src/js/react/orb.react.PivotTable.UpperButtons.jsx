@@ -23,8 +23,8 @@ module.exports.PivotTableUpperButtons = React.createClass({
                </PivotButton>;
       });
       fieldsDropTarget = <tr>
-        <td className="av-flds">
-          <DropTarget buttons={fieldsButtons} axetype={null}>
+        <td className="av-flds"> 
+          <DropTarget buttons={fieldsButtons} upperButtons={true} axetype={null}>
           </DropTarget>
         </td>
       </tr>;
@@ -43,7 +43,7 @@ module.exports.PivotTableUpperButtons = React.createClass({
 
     var dataDropTarget = <tr>
       <td className="empty">
-        <DropTarget buttons={dataButtons} axetype={axe.Type.DATA}>
+        <DropTarget buttons={dataButtons} upperButtons={true} axetype={axe.Type.DATA}>
         </DropTarget>
       </td>
     </tr>;

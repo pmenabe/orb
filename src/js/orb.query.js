@@ -33,7 +33,6 @@ var queryBase = function(source, query, filters) {
     };
 
     this.measureFunc = function(datafieldname, multi, aggregateFunc, fieldsConfig) {
-
         var outerArgs = {
             datafieldname: self.getCaptionName(datafieldname),
             multi: multi,

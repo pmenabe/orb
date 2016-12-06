@@ -307,6 +307,12 @@
         border-radius: 0.28571429rem;
     }
 
+    .drp-trgt-item {
+        float:left;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
     .drp-trgt-empty {
         width: 51px;
     }

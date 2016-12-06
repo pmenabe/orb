@@ -60,6 +60,7 @@
 .orb .hdr-val div{white-space:nowrap}
 .orb div.hdr-val{float:left}
 .orb .drp-trgt{display:inline-block;float:left;min-width:50%;min-height:41px;margin-right:17px;margin-bottom:5px;padding:2px 0;border:1px solid rgba(34,36,38,.15);border-radius:.28571429rem}
+.orb .drp-trgt-item{float:left;margin-top:2px;margin-bottom:2px}
 .orb .drp-trgt-empty{width:51px}
 .orb .drp-indic{float:left;width:2px;margin-top:0}
 .orb .drp-indic-first{margin-left:0}
