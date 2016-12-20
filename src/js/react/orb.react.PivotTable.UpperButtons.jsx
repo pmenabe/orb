@@ -52,13 +52,13 @@ module.exports.PivotTableUpperButtons = React.createClass({
         <tbody>
           <tr>
             <td className="flds-grp-cap">
-              <div>Fields</div>
+              <div>Unused fields</div>
             </td>
           </tr>
           {fieldsDropTarget}
           <tr>
             <td className="flds-grp-cap">
-              <div>Data</div>
+              <div>Data fields</div>
             </td>
           </tr>
           {dataDropTarget}

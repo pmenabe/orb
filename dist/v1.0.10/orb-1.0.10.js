@@ -37015,6 +37015,22 @@
                                     pivotTableComp: self
                                 })
                             ) : null,
+                            React.createElement("div", {
+                                    className: "ui icon message"
+                                },
+                                React.createElement("i", {
+                                    className: "info icon"
+                                }),
+                                React.createElement("div", {
+                                        className: "content"
+                                    },
+                                    React.createElement("p", null, "Drag fields between containers and use the filter ", React.createElement("i", {
+                                        className: "filter icon"
+                                    }), " to restrict values. You can sort columns and rows using the up/down arrows ", React.createElement("i", {
+                                        className: "sort icon"
+                                    }), ".")
+                                )
+                            ),
                             React.createElement("table", {
                                     id: 'tbl-' + self.id,
                                     ref: "pivotWrapperTable",
@@ -38201,7 +38217,7 @@
                                 React.createElement("td", {
                                         className: "flds-grp-cap"
                                     },
-                                    React.createElement("div", null, "Fields")
+                                    React.createElement("div", null, "Unused fields")
                                 )
                             ),
                             fieldsDropTarget,
@@ -38209,7 +38225,7 @@
                                 React.createElement("td", {
                                         className: "flds-grp-cap"
                                     },
-                                    React.createElement("div", null, "Data")
+                                    React.createElement("div", null, "Data fields")
                                 )
                             ),
                             dataDropTarget
