@@ -276,12 +276,6 @@ module.exports.PivotTable = React.createClass({
       {config.toolbar && config.toolbar.visible ? <div ref="toolbar" className="">
         <Toolbar pivotTableComp={self}></Toolbar>
       </div> : null}
-      <div className="ui icon message">
-        <i className="info icon"></i>
-        <div className="content">
-          <p>Drag fields between containers and use the filter <i className='filter icon'></i> to restrict values. You can sort columns and rows using the up/down arrows <i className='sort icon'></i>.</p>
-        </div>
-      </div>
       <table id={'tbl-' + self.id} ref="pivotWrapperTable" className={classes.table} style={{tableLayout: 'fixed'}}>
         <colgroup>
           <col ref="column1"></col>
