@@ -133,7 +133,12 @@ module.exports = function(config) {
             return f.name == fieldname 
         })
         
-        self.filters[config.fields[fieldIndex].name] = staticValue
+        self.filters[config.fields[fieldIndex].name] = {
+            value: staticValue,
+            operator: operator,
+            term: term,
+            excluded: excludeStatic
+        }
 
         self.pgrid.applyFilter(fieldname, operator, term, staticValue, excludeStatic);
         buildUi();
